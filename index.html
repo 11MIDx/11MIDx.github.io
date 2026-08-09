@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="az">
 <head>
@@ -60,6 +61,12 @@
             font-size: 13px;
             color: #777;
         }
+
+        #azerbaijan-time {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #999;
+        }
     </style>
 
 </head>
@@ -68,6 +75,7 @@
 
     <div class="chatgpt-credit">
         ✦ ChatGPT
+        <div id="azerbaijan-time"></div>
     </div>
 
     <div class="container">
@@ -77,6 +85,24 @@
         <div class="loader"></div>
 
     </div>
+
+    <script>
+        function updateAzerbaijanTime() {
+            const now = new Date();
+
+            const time = now.toLocaleTimeString("az-AZ", {
+                timeZone: "Asia/Baku",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            });
+
+            document.getElementById("azerbaijan-time").textContent = time;
+        }
+
+        updateAzerbaijanTime();
+        setInterval(updateAzerbaijanTime, 1000);
+    </script>
 
 </body>
 </html>
