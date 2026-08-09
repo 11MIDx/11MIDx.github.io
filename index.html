@@ -20,18 +20,16 @@
             color: white;
             height: 100vh;
             overflow: hidden;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             cursor: default;
         }
 
         .container {
             text-align: center;
             position: relative;
-            z-index: 2;
+            z-index: 5;
         }
 
         h1 {
@@ -44,14 +42,10 @@
         .loader {
             width: 35px;
             height: 35px;
-
             border: 4px solid #333;
             border-top: 4px solid white;
-
             border-radius: 50%;
-
             animation: spin 1s linear infinite;
-
             margin: auto;
         }
 
@@ -69,42 +63,19 @@
             position: fixed;
             top: 15px;
             left: 18px;
-
             font-family: Arial, sans-serif;
             font-size: 13px;
-
             color: #aaa;
-
             z-index: 10;
         }
 
-        .trail {
+        #trail-canvas {
             position: fixed;
-
-            width: 12px;
-            height: 12px;
-
-            border-radius: 50%;
-
+            inset: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
-
             z-index: 1;
-
-            transform: translate(-50%, -50%);
-
-            animation: fadeTrail 0.8s linear forwards;
-        }
-
-        @keyframes fadeTrail {
-            0% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0);
-            }
         }
     </style>
 
@@ -116,16 +87,33 @@
         ✦ ChatGPT
     </div>
 
+    <canvas id="trail-canvas"></canvas>
+
     <div class="container">
         <h1>Ümid Hacılı</h1>
-
         <div class="loader"></div>
     </div>
 
     <script>
+        const canvas = document.getElementById("trail-canvas");
+        const ctx = canvas.getContext("2d");
+
+        let width;
+        let height;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+
+        window.addEventListener("resize", resizeCanvas);
+
+        const points = [];
 
         const colors = [
-            "#ff004c",
+            "#ff0055",
             "#ff7b00",
             "#ffee00",
             "#00ff66",
@@ -135,37 +123,81 @@
             "#ff00d4"
         ];
 
-        let colorIndex = 0;
+        let colorPosition = 0;
 
         document.addEventListener("mousemove", function(event) {
 
-            const trail = document.createElement("div");
+            points.push({
+                x: event.clientX,
+                y: event.clientY,
+                color: colorPosition
+            });
 
-            trail.className = "trail";
+            colorPosition += 0.08;
 
-            trail.style.left = event.clientX + "px";
-            trail.style.top = event.clientY + "px";
-
-            trail.style.background =
-                colors[colorIndex];
-
-            trail.style.boxShadow =
-                "0 0 15px " + colors[colorIndex];
-
-            document.body.appendChild(trail);
-
-            colorIndex++;
-
-            if (colorIndex >= colors.length) {
-                colorIndex = 0;
+            if (points.length > 45) {
+                points.shift();
             }
-
-            setTimeout(function() {
-                trail.remove();
-            }, 800);
-
         });
 
+        function drawTrail() {
+
+            ctx.clearRect(0, 0, width, height);
+
+            if (points.length > 1) {
+
+                for (let i = 1; i < points.length; i++) {
+
+                    const previous = points[i - 1];
+                    const current = points[i];
+
+                    const progress = i / points.length;
+
+                    const colorIndex =
+                        Math.floor(
+                            (current.color + i * 0.12) %
+                            colors.length
+                        );
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        previous.x,
+                        previous.y
+                    );
+
+                    ctx.lineTo(
+                        current.x,
+                        current.y
+                    );
+
+                    ctx.lineWidth =
+                        2 + progress * 8;
+
+                    ctx.lineCap = "round";
+
+                    ctx.strokeStyle =
+                        colors[colorIndex];
+
+                    ctx.globalAlpha =
+                        progress * 0.8;
+
+                    ctx.shadowBlur = 12;
+
+                    ctx.shadowColor =
+                        colors[colorIndex];
+
+                    ctx.stroke();
+                }
+            }
+
+            ctx.globalAlpha = 1;
+            ctx.shadowBlur = 0;
+
+            requestAnimationFrame(drawTrail);
+        }
+
+        drawTrail();
     </script>
 
 </body>
