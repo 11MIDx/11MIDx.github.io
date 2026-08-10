@@ -3,7 +3,7 @@
 
 <head>
 
-    <!-- Google Search Console təsdiqləmə kodu -->
+    <!-- Google Search Console -->
     <meta name="google-site-verification"
           content="hWI9JTzJS9M8SbMfd-1oRRcM1X1bAHBEfjEB6a2jXLs">
 
@@ -12,18 +12,15 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <!-- Saytın adı -->
+    <!-- SEO -->
     <title>11MIDx - Ümid Hacılı</title>
 
-    <!-- Google üçün sayt haqqında açıqlama -->
     <meta name="description"
           content="11MIDx - Ümid Hacılı tərəfindən hazırlanmış şəxsi veb sayt.">
 
-    <!-- Google-a səhifəni indeksləməyə icazə verir -->
     <meta name="robots"
           content="index, follow">
 
-    <!-- Saytın əsas ünvanı -->
     <link rel="canonical"
           href="https://11midx.github.io/">
 
@@ -35,23 +32,38 @@
 
         html,
         body {
-            margin: 0;
             width: 100%;
             height: 100%;
+            margin: 0;
             overflow: hidden;
             background: #000;
         }
 
         body {
-            color: white;
-
             display: flex;
             justify-content: center;
             align-items: center;
+
+            color: white;
         }
 
+        /* Neon effekt üçün canvas */
+        #particles {
+            position: fixed;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            pointer-events: none;
+
+            z-index: 1;
+        }
+
+        /* Saytın mərkəzi */
         .container {
             position: relative;
+
             z-index: 5;
 
             text-align: center;
@@ -63,13 +75,17 @@
             font-family: Arial, sans-serif;
 
             font-size: 50px;
+            font-weight: 600;
 
             color: white;
         }
 
+        /* Aşağıdakı dairə */
         .loader {
             width: 35px;
             height: 35px;
+
+            margin: auto;
 
             border: 4px solid #333;
             border-top: 4px solid white;
@@ -77,8 +93,6 @@
             border-radius: 50%;
 
             animation: spin 1s linear infinite;
-
-            margin: auto;
         }
 
         @keyframes spin {
@@ -93,11 +107,14 @@
 
         }
 
+        /* Sol yuxarı ChatGPT yazısı */
         .chatgpt-credit {
             position: fixed;
 
             top: 15px;
             left: 18px;
+
+            z-index: 10;
 
             font-family: Arial, sans-serif;
 
@@ -105,20 +122,7 @@
 
             color: #777;
 
-            z-index: 10;
-        }
-
-        #wave {
-            position: fixed;
-
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            pointer-events: none;
-
-            z-index: 1;
+            user-select: none;
         }
 
     </style>
@@ -128,23 +132,20 @@
 
 <body>
 
-
-    <!-- Sol yuxarıda kiçik ChatGPT yazısı -->
+    <!-- Sol yuxarı -->
     <div class="chatgpt-credit">
         ✦ ChatGPT
     </div>
 
 
-    <!-- Rəngli siçan quyruğu -->
-    <canvas id="wave"></canvas>
+    <!-- Neon hissəciklərin canvası -->
+    <canvas id="particles"></canvas>
 
 
-    <!-- Saytın əsas hissəsi -->
+    <!-- Mərkəz -->
     <div class="container">
 
-        <h1>
-            Ümid Hacılı
-        </h1>
+        <h1>Ümid Hacılı</h1>
 
         <div class="loader"></div>
 
@@ -154,7 +155,7 @@
     <script>
 
         const canvas =
-            document.getElementById("wave");
+            document.getElementById("particles");
 
         const ctx =
             canvas.getContext("2d");
@@ -164,7 +165,7 @@
         let height;
 
 
-        function resize() {
+        function resizeCanvas() {
 
             width =
                 canvas.width =
@@ -177,75 +178,80 @@
         }
 
 
-        resize();
+        resizeCanvas();
 
 
         window.addEventListener(
             "resize",
-            resize
+            resizeCanvas
         );
 
 
-        const points = [];
+        /*
+         * Mouse koordinatları
+         */
+        let mouseX =
+            window.innerWidth / 2;
 
-
-        let mouseX = 0;
-        let mouseY = 0;
-
-
-        let lastMoveTime =
-            Date.now();
+        let mouseY =
+            window.innerHeight / 2;
 
 
         /*
-         * Rənglər
+         * Neon rənglər
          */
         const colors = [
 
             "#00eaff",
-            "#0077ff",
-            "#7a00ff",
-            "#ff00cc",
+            "#008cff",
+            "#4d00ff",
+            "#a000ff",
+            "#ff00d4",
             "#ff0055",
-            "#ff7700",
-            "#ffee00",
+            "#ff5c00",
+            "#ffe600",
+            "#7dff00",
             "#00ff88"
 
         ];
 
 
         /*
-         * Siçan hərəkət etdikdə
+         * Bütün hissəciklər burada saxlanılır
          */
-        document.addEventListener(
+        const particles = [];
+
+
+        /*
+         * Mouse hərəkət etdikdə
+         */
+        window.addEventListener(
             "mousemove",
-            function(e) {
+            function(event) {
 
                 mouseX =
-                    e.clientX;
+                    event.clientX;
 
                 mouseY =
-                    e.clientY;
-
-
-                lastMoveTime =
-                    Date.now();
-
-
-                points.push({
-
-                    x: mouseX,
-                    y: mouseY
-
-                });
+                    event.clientY;
 
 
                 /*
-                 * Quyruğun maksimum uzunluğu
+                 * Mouse-un arxasınca
+                 * xətt çəkmirik.
+                 *
+                 * Əvəzində mouse-un
+                 * ətrafına hissəciklər
+                 * püskürür.
                  */
-                if (points.length > 120) {
 
-                    points.shift();
+                for (
+                    let i = 0;
+                    i < 7;
+                    i++
+                ) {
+
+                    createParticle();
 
                 }
 
@@ -254,9 +260,96 @@
 
 
         /*
-         * Dalğanı çək
+         * Bir neon hissəcik yarat
          */
-        function drawWave() {
+        function createParticle() {
+
+            /*
+             * Təsadüfi istiqamət
+             */
+            const angle =
+                Math.random() *
+                Math.PI *
+                2;
+
+
+            /*
+             * Təsadüfi sürət
+             */
+            const speed =
+                0.5 +
+                Math.random() * 3.5;
+
+
+            /*
+             * Mouse-un tam üstündən
+             * yox, yaxın ətrafından başlasın
+             */
+            const distance =
+                Math.random() * 12;
+
+
+            const x =
+                mouseX +
+                Math.cos(angle) *
+                distance;
+
+
+            const y =
+                mouseY +
+                Math.sin(angle) *
+                distance;
+
+
+            particles.push({
+
+                x: x,
+                y: y,
+
+                vx:
+                    Math.cos(angle) *
+                    speed,
+
+                vy:
+                    Math.sin(angle) *
+                    speed,
+
+                /*
+                 * Böyükdən kiçiyə
+                 */
+                size:
+                    1.5 +
+                    Math.random() * 5,
+
+                /*
+                 * 0.7-1.2 saniyə
+                 * arasında yaşasın
+                 */
+                life:
+                    700 +
+                    Math.random() * 500,
+
+                maxLife:
+                    700 +
+                    Math.random() * 500,
+
+                color:
+                    colors[
+                        Math.floor(
+                            Math.random() *
+                            colors.length
+                        )
+                    ]
+
+            });
+
+        }
+
+
+        /*
+         * Neon hissəcikləri çək
+         */
+        function drawParticles() {
 
             ctx.clearRect(
                 0,
@@ -266,190 +359,154 @@
             );
 
 
-            const stoppedFor =
-                Date.now() -
-                lastMoveTime;
-
-
             /*
-             * Siçan 0.4 saniyə
-             * dayanandan sonra
-             * silinmə başlayır.
+             * Hissəciklərin hamısını
+             * geriyə doğru yoxlayırıq
              */
-            let fade = 1;
-
-
-            if (stoppedFor > 400) {
-
-                /*
-                 * 0.2 saniyədə
-                 * tam yox olur.
-                 */
-                fade =
-                    Math.max(
-                        0,
-                        1 -
-                        (stoppedFor - 400) /
-                        200
-                    );
-
-            }
-
-
-            if (
-                points.length > 3 &&
-                fade > 0
+            for (
+                let i = particles.length - 1;
+                i >= 0;
+                i--
             ) {
 
+                const p =
+                    particles[i];
+
+
+                /*
+                 * Hərəkət
+                 */
+                p.x += p.vx;
+
+                p.y += p.vy;
+
+
+                /*
+                 * Yavaşlama
+                 */
+                p.vx *= 0.985;
+                p.vy *= 0.985;
+
+
+                /*
+                 * Bir az aşağı-yuxarı
+                 * yumşaq hərəkət
+                 */
+                p.vy += 0.015;
+
+
+                /*
+                 * Vaxt azalır
+                 */
+                p.life -= 16;
+
+
+                /*
+                 * Şəffaflıq
+                 *
+                 * Əvvəldə güclü,
+                 * sonda yumşaq yox olur.
+                 */
+                const opacity =
+                    Math.max(
+                        0,
+                        p.life / p.maxLife
+                    );
+
+
+                /*
+                 * Ölçü də getdikcə azalır
+                 */
+                const size =
+                    p.size *
+                    (0.5 + opacity);
+
+
+                /*
+                 * Neon parıltı
+                 */
                 ctx.save();
 
                 ctx.globalAlpha =
-                    fade;
+                    opacity;
+
+
+                ctx.shadowBlur =
+                    20;
+
+                ctx.shadowColor =
+                    p.color;
 
 
                 /*
-                 * Bir neçə rəngli
-                 * yumşaq xətt
+                 * Yumşaq dairə
                  */
-                for (
-                    let wave = 0;
-                    wave < 4;
-                    wave++
-                ) {
+                ctx.beginPath();
 
-                    ctx.beginPath();
-
-
-                    for (
-                        let i = 0;
-                        i < points.length;
-                        i++
-                    ) {
-
-                        const p =
-                            points[i];
+                ctx.arc(
+                    p.x,
+                    p.y,
+                    size,
+                    0,
+                    Math.PI * 2
+                );
 
 
-                        const progress =
-                            i /
-                            (points.length - 1);
+                ctx.fillStyle =
+                    p.color;
+
+                ctx.fill();
 
 
-                        /*
-                         * Dalğalı hərəkət
-                         */
-                        const offset =
-                            Math.sin(
-                                i * 0.35 +
-                                wave * 1.5
-                            ) *
-                            (
-                                8 +
-                                progress * 12
-                            );
+                /*
+                 * Daha yumşaq ikinci
+                 * parıltı qatı
+                 */
+                ctx.globalAlpha =
+                    opacity * 0.25;
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    p.x,
+                    p.y,
+                    size * 3,
+                    0,
+                    Math.PI * 2
+                );
 
 
-                        const x =
-                            p.x +
-                            Math.cos(
-                                i * 0.18
-                            ) *
-                            offset;
+                ctx.fillStyle =
+                    p.color;
 
-
-                        const y =
-                            p.y +
-                            Math.sin(
-                                i * 0.25
-                            ) *
-                            offset;
-
-
-                        if (i === 0) {
-
-                            ctx.moveTo(
-                                x,
-                                y
-                            );
-
-                        } else {
-
-                            ctx.lineTo(
-                                x,
-                                y
-                            );
-
-                        }
-
-                    }
-
-
-                    const color =
-                        colors[
-                            wave %
-                            colors.length
-                        ];
-
-
-                    ctx.strokeStyle =
-                        color;
-
-
-                    ctx.lineWidth =
-                        2.5 +
-                        wave * 1.2;
-
-
-                    ctx.lineCap =
-                        "round";
-
-
-                    ctx.lineJoin =
-                        "round";
-
-
-                    /*
-                     * Neon parıltı
-                     */
-                    ctx.shadowBlur =
-                        15;
-
-                    ctx.shadowColor =
-                        color;
-
-
-                    ctx.stroke();
-
-                }
+                ctx.fill();
 
 
                 ctx.restore();
 
+
+                /*
+                 * Ömrü bitibsə sil
+                 */
+                if (
+                    p.life <= 0
+                ) {
+
+                    particles.splice(
+                        i,
+                        1
+                    );
+
+                }
+
             }
 
 
             /*
-             * 0.6 saniyədən sonra
-             * ən köhnə hissələr
-             * təmizlənməyə başlayır.
+             * Animasiya davam etsin
              */
-            if (stoppedFor > 600) {
-
-                points.splice(
-                    0,
-                    Math.max(
-                        1,
-                        Math.ceil(
-                            points.length / 8
-                        )
-                    )
-                );
-
-            }
-
-
             requestAnimationFrame(
-                drawWave
+                drawParticles
             );
 
         }
@@ -458,10 +515,10 @@
         /*
          * Animasiya başlasın
          */
-        drawWave();
+        drawParticles();
+
 
     </script>
-
 
 </body>
 
