@@ -1,4 +1,4 @@
-<!DOCTYPE html>       
+<!DOCTYPE html>
 <html lang="az">
 <head>
 <meta name="google-site-verification" content="hWI9JTzJS9M8SbMfd-1oRRcM1X1bAHBEfjEB6a2jXLs">
@@ -9,62 +9,52 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://11midx.github.io/">
 <style>
-* {
-box-sizing: border-box;
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000}
+body{display:flex;justify-content:center;align-items:center;color:white}
+#fireworks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.container{position:relative;z-index:5;text-align:center}
+h1{margin:0 0 25px 0;font-family:Arial,sans-serif;font-size:50px;font-weight:600;color:white;user-select:none;-webkit-user-select:none}
+.loader{width:35px;height:35px;margin:auto;border:4px solid #333;border-top:4px solid white;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+#tetris{
+position:fixed;
+right:35px;
+top:50%;
+transform:translateY(-50%);
+z-index:10;
+background:#071007;
+border:2px solid #185c18;
+border-radius:8px;
+padding:10px;
+box-shadow:0 0 18px rgba(0,255,60,.15);
 }
-html, body {
-width: 100%;
-height: 100%;
-margin: 0;
-overflow: hidden;
-background: #000;
+#game{
+display:block;
+background:#020602;
+border:1px solid #164816;
 }
-body {
-display: flex;
-justify-content: center;
-align-items: center;
-color: white;
+#score{
+font-family:Arial,sans-serif;
+font-size:14px;
+color:#55ff55;
+text-align:center;
+margin-top:7px;
+user-select:none;
 }
-#fireworks {
-position: fixed;
-inset: 0;
-width: 100%;
-height: 100%;
-pointer-events: none;
-z-index: 1;
-}
-.container {
-position: relative;
-z-index: 5;
-text-align: center;
-}
-h1 {
-margin: 0 0 25px 0;
-font-family: Arial, sans-serif;
-font-size: 50px;
-font-weight: 600;
-color: white;
-user-select: none;
--webkit-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-}
-.loader {
-width: 35px;
-height: 35px;
-margin: auto;
-border: 4px solid #333;
-border-top: 4px solid white;
-border-radius: 50%;
-animation: spin 1s linear infinite;
-}
-@keyframes spin {
-from {
-transform: rotate(0deg);
-}
-to {
-transform: rotate(360deg);
-}
+#gameOver{
+position:absolute;
+left:0;
+right:0;
+top:50%;
+transform:translateY(-50%);
+text-align:center;
+font-family:Arial,sans-serif;
+font-size:16px;
+font-weight:bold;
+color:#55ff55;
+display:none;
+pointer-events:none;
 }
 </style>
 </head>
@@ -74,11 +64,15 @@ transform: rotate(360deg);
 <h1>Ümid Hacılı</h1>
 <div class="loader"></div>
 </div>
+<div id="tetris">
+<canvas id="game" width="180" height="360"></canvas>
+<div id="score">Xal: 0</div>
+<div id="gameOver">OYUN BITDI<br>Yenidən başlamaq üçün kliklə</div>
+</div>
 <script>
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
-let width;
-let height;
+let width,height;
 function resizeCanvas(){
 width=window.innerWidth;
 height=window.innerHeight;
@@ -93,67 +87,215 @@ function createFirework(x,y){
 const amount=60;
 const color=colors[Math.floor(Math.random()*colors.length)];
 for(let i=0;i<amount;i++){
-const angle=(Math.PI*2)*(i/amount)+(Math.random()-0.5)*0.12;
+const angle=Math.PI*2*(i/amount)+(Math.random()-0.5)*0.12;
 const speed=1.5+Math.random()*4;
-particles.push({
-x:x,
-y:y,
-vx:Math.cos(angle)*speed,
-vy:Math.sin(angle)*speed,
-size:1.5+Math.random()*2.5,
-life:800+Math.random()*500,
-maxLife:800+Math.random()*500,
-color:color
-});
+const life=800+Math.random()*500;
+particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,size:1.5+Math.random()*2.5,life,maxLife:life,color});
 }
 for(let i=0;i<12;i++){
-particles.push({
-x:x,
-y:y,
-vx:(Math.random()-0.5)*2,
-vy:(Math.random()-0.5)*2,
-size:2+Math.random()*3,
-life:350,
-maxLife:350,
-color:"#ffffff"
-});
+particles.push({x,y,vx:(Math.random()-0.5)*2,vy:(Math.random()-0.5)*2,size:2+Math.random()*3,life:350,maxLife:350,color:"#fff"});
 }
 }
-window.addEventListener("click",function(event){
-createFirework(event.clientX,event.clientY);
+window.addEventListener("click",e=>{
+if(e.target.closest("#tetris"))return;
+createFirework(e.clientX,e.clientY);
 });
-function drawParticle(particle){
-const opacity=Math.max(0,particle.life/particle.maxLife);
-ctx.globalAlpha=opacity;
+function drawParticle(p){
+ctx.globalAlpha=Math.max(0,p.life/p.maxLife);
 ctx.shadowBlur=12;
-ctx.shadowColor=particle.color;
+ctx.shadowColor=p.color;
 ctx.beginPath();
-ctx.arc(particle.x,particle.y,particle.size,0,Math.PI*2);
-ctx.fillStyle=particle.color;
+ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+ctx.fillStyle=p.color;
 ctx.fill();
 ctx.globalAlpha=1;
 }
 let lastTime=performance.now();
-function animate(currentTime){
-const delta=Math.min(32,currentTime-lastTime);
-lastTime=currentTime;
+function animate(t){
+const delta=Math.min(32,t-lastTime);
+lastTime=t;
 ctx.clearRect(0,0,width,height);
 for(let i=particles.length-1;i>=0;i--){
 const p=particles[i];
 p.x+=p.vx*(delta/16);
 p.y+=p.vy*(delta/16);
-p.vy+=0.045*(delta/16);
-p.vx*=0.985;
-p.vy*=0.985;
+p.vy+=.045*(delta/16);
+p.vx*=.985;
+p.vy*=.985;
 p.life-=delta;
 drawParticle(p);
-if(p.life<=0){
-particles.splice(i,1);
-}
+if(p.life<=0)particles.splice(i,1);
 }
 requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
+
+const boardCanvas=document.getElementById("game");
+const g=boardCanvas.getContext("2d");
+const scoreEl=document.getElementById("score");
+const gameOverEl=document.getElementById("gameOver");
+const COLS=10;
+const ROWS=20;
+const SIZE=18;
+let board;
+let piece;
+let score=0;
+let dropTimer=0;
+let lastGameTime=performance.now();
+let gameEnded=false;
+const pieces=[
+[[1,1,1,1]],
+[[1,1],[1,1]],
+[[0,1,0],[1,1,1]],
+[[1,0,0],[1,1,1]],
+[[0,0,1],[1,1,1]],
+[[0,1,1],[1,1,0]],
+[[1,1,0],[0,1,1]]
+];
+function newBoard(){
+return Array.from({length:ROWS},()=>Array(COLS).fill(0));
+}
+function newPiece(){
+const shape=pieces[Math.floor(Math.random()*pieces.length)].map(r=>r.slice());
+return{
+shape,
+x:Math.floor((COLS-shape[0].length)/2),
+y:0
+};
+}
+function collide(p){
+for(let y=0;y<p.shape.length;y++){
+for(let x=0;x<p.shape[y].length;x++){
+if(!p.shape[y][x])continue;
+const bx=p.x+x;
+const by=p.y+y;
+if(bx<0||bx>=COLS||by>=ROWS)return true;
+if(by>=0&&board[by][bx])return true;
+}
+}
+return false;
+}
+function merge(){
+for(let y=0;y<piece.shape.length;y++){
+for(let x=0;x<piece.shape[y].length;x++){
+if(piece.shape[y][x])board[piece.y+y][piece.x+x]=1;
+}
+}
+}
+function clearLines(){
+let lines=0;
+for(let y=ROWS-1;y>=0;y--){
+if(board[y].every(v=>v)){
+board.splice(y,1);
+board.unshift(Array(COLS).fill(0));
+lines++;
+y++;
+}
+}
+if(lines){
+score+=lines*100;
+scoreEl.textContent="Xal: "+score;
+}
+}
+function rotateShape(shape){
+return shape[0].map((_,i)=>shape.map(row=>row[i]).reverse());
+}
+function rotate(){
+const old=piece.shape;
+const rotated=rotateShape(old);
+piece.shape=rotated;
+if(collide(piece))piece.shape=old;
+}
+function move(dx){
+piece.x+=dx;
+if(collide(piece))piece.x-=dx;
+}
+function drop(){
+piece.y++;
+if(collide(piece)){
+piece.y--;
+merge();
+clearLines();
+piece=newPiece();
+if(collide(piece)){
+endGame();
+}
+}
+dropTimer=0;
+}
+function drawCell(x,y){
+g.fillStyle="#22dd44";
+g.fillRect(x*SIZE+1,y*SIZE+1,SIZE-2,SIZE-2);
+g.fillStyle="#55ff66";
+g.fillRect(x*SIZE+3,y*SIZE+3,SIZE-6,3);
+g.fillStyle="#0b7a20";
+g.fillRect(x*SIZE+3,y*SIZE+SIZE-5,SIZE-6,2);
+}
+function drawGame(){
+g.clearRect(0,0,boardCanvas.width,boardCanvas.height);
+for(let y=0;y<ROWS;y++){
+for(let x=0;x<COLS;x++){
+if(board[y][x])drawCell(x,y);
+}
+}
+if(!gameEnded){
+for(let y=0;y<piece.shape.length;y++){
+for(let x=0;x<piece.shape[y].length;x++){
+if(piece.shape[y][x])drawCell(piece.x+x,piece.y+y);
+}
+}
+}
+}
+function gameLoop(t){
+const delta=t-lastGameTime;
+lastGameTime=t;
+if(!gameEnded){
+dropTimer+=delta;
+if(dropTimer>650)drop();
+drawGame();
+}
+requestAnimationFrame(gameLoop);
+}
+function endGame(){
+gameEnded=true;
+gameOverEl.style.display="block";
+}
+function restartGame(){
+board=newBoard();
+piece=newPiece();
+score=0;
+scoreEl.textContent="Xal: 0";
+gameEnded=false;
+gameOverEl.style.display="none";
+}
+window.addEventListener("keydown",e=>{
+if(gameEnded){
+if(e.key==="Enter"||e.key===" ")restartGame();
+return;
+}
+if(e.key==="ArrowLeft"){
+e.preventDefault();
+move(-1);
+}
+if(e.key==="ArrowRight"){
+e.preventDefault();
+move(1);
+}
+if(e.key==="ArrowDown"){
+e.preventDefault();
+drop();
+}
+if(e.key==="ArrowUp"){
+e.preventDefault();
+rotate();
+}
+});
+document.getElementById("tetris").addEventListener("click",e=>{
+e.stopPropagation();
+if(gameEnded)restartGame();
+});
+restartGame();
+requestAnimationFrame(gameLoop);
 </script>
 </body>
 </html>
