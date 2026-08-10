@@ -1,649 +1,155 @@
 <!DOCTYPE html>
 <html lang="az">
-
 <head>
-
-    <!-- Google Search Console -->
-    <meta name="google-site-verification"
-          content="hWI9JTzJS9M8SbMfd-1oRRcM1X1bAHBEfjEB6a2jXLs">
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO -->
-    <title>11MIDx - Ümid Hacılı</title>
-
-    <meta name="description"
-          content="11MIDx - Ümid Hacılı tərəfindən hazırlanmış şəxsi veb sayt.">
-
-    <meta name="robots"
-          content="index, follow">
-
-    <link rel="canonical"
-          href="https://11midx.github.io/">
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-
-            overflow: hidden;
-
-            background: #000;
-        }
-
-        body {
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            color: white;
-        }
-
-
-        /* Havai fişəng canvası */
-
-        #fireworks {
-
-            position: fixed;
-
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            pointer-events: none;
-
-            z-index: 1;
-        }
-
-
-        /* Mərkəz */
-
-        .container {
-
-            position: relative;
-
-            z-index: 5;
-
-            text-align: center;
-        }
-
-
-        h1 {
-
-            margin: 0 0 25px 0;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 50px;
-
-            font-weight: 600;
-
-            color: white;
-        }
-
-
-        /* Fırlanan dairə */
-
-        .loader {
-
-            width: 35px;
-            height: 35px;
-
-            margin: auto;
-
-            border: 4px solid #333;
-
-            border-top: 4px solid white;
-
-            border-radius: 50%;
-
-            animation: spin 1s linear infinite;
-        }
-
-
-        @keyframes spin {
-
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-
-        }
-
-
-        /* Sol yuxarı ChatGPT */
-
-        .chatgpt-credit {
-
-            position: fixed;
-
-            top: 15px;
-            left: 18px;
-
-            z-index: 10;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 13px;
-
-            color: #777;
-
-            user-select: none;
-        }
-
-    </style>
-
+<meta name="google-site-verification" content="hWI9JTzJS9M8SbMfd-1oRRcM1X1bAHBEfjEB6a2jXLs">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11MIDx - Ümid Hacılı</title>
+<meta name="description" content="11MIDx - Ümid Hacılı tərəfindən hazırlanmış şəxsi veb sayt.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://11midx.github.io/">
+<style>
+* {
+box-sizing: border-box;
+}
+html, body {
+width: 100%;
+height: 100%;
+margin: 0;
+overflow: hidden;
+background: #000;
+}
+body {
+display: flex;
+justify-content: center;
+align-items: center;
+color: white;
+}
+#fireworks {
+position: fixed;
+inset: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: 1;
+}
+.container {
+position: relative;
+z-index: 5;
+text-align: center;
+}
+h1 {
+margin: 0 0 25px 0;
+font-family: Arial, sans-serif;
+font-size: 50px;
+font-weight: 600;
+color: white;
+}
+.loader {
+width: 35px;
+height: 35px;
+margin: auto;
+border: 4px solid #333;
+border-top: 4px solid white;
+border-radius: 50%;
+animation: spin 1s linear infinite;
+}
+@keyframes spin {
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(360deg);
+}
+}
+</style>
 </head>
-
-
 <body>
-
-
-    <!-- ChatGPT -->
-
-    <div class="chatgpt-credit">
-        ✦ ChatGPT
-    </div>
-
-
-    <!-- Havai fişəng -->
-
-    <canvas id="fireworks"></canvas>
-
-
-    <!-- Sayt -->
-
-    <div class="container">
-
-        <h1>
-            Ümid Hacılı
-        </h1>
-
-        <div class="loader"></div>
-
-    </div>
-
-
-    <script>
-
-        /*
-         * =====================================================
-         * CANVAS
-         * =====================================================
-         */
-
-        const canvas =
-            document.getElementById(
-                "fireworks"
-            );
-
-        const ctx =
-            canvas.getContext(
-                "2d"
-            );
-
-
-        let width;
-        let height;
-
-
-        function resizeCanvas() {
-
-            width =
-                window.innerWidth;
-
-            height =
-                window.innerHeight;
-
-
-            canvas.width =
-                width;
-
-            canvas.height =
-                height;
-
-        }
-
-
-        resizeCanvas();
-
-
-        window.addEventListener(
-            "resize",
-            resizeCanvas
-        );
-
-
-        /*
-         * =====================================================
-         * HAVAİ FİŞƏNG HİSSƏCİKLƏRİ
-         * =====================================================
-         */
-
-        const particles = [];
-
-
-        /*
-         * Rənglər
-         */
-
-        const colors = [
-
-            "#00eaff",
-            "#008cff",
-            "#7a00ff",
-            "#ff00cc",
-            "#ff0055",
-            "#ff7700",
-            "#ffe600",
-            "#00ff88"
-
-        ];
-
-
-        /*
-         * =====================================================
-         * FİŞƏNG YARAT
-         * =====================================================
-         */
-
-        function createFirework(
-            x,
-            y
-        ) {
-
-            /*
-             * Hər klikdə
-             * 60 hissəcik.
-             */
-
-            const amount = 60;
-
-
-            /*
-             * Bir rəng seçirik.
-             */
-
-            const color =
-                colors[
-                    Math.floor(
-                        Math.random() *
-                        colors.length
-                    )
-                ];
-
-
-            for (
-                let i = 0;
-                i < amount;
-                i++
-            ) {
-
-                /*
-                 * 360 dərəcə
-                 * ətrafa yayılma.
-                 */
-
-                const angle =
-                    (
-                        Math.PI * 2
-                    ) *
-                    (
-                        i / amount
-                    )
-                    +
-                    (
-                        Math.random() -
-                        0.5
-                    ) *
-                    0.12;
-
-
-                /*
-                 * Sürət.
-                 */
-
-                const speed =
-                    1.5 +
-                    Math.random() * 4;
-
-
-                particles.push({
-
-                    x: x,
-
-                    y: y,
-
-                    vx:
-                        Math.cos(angle) *
-                        speed,
-
-                    vy:
-                        Math.sin(angle) *
-                        speed,
-
-                    size:
-                        1.5 +
-                        Math.random() * 2.5,
-
-                    life:
-                        800 +
-                        Math.random() * 500,
-
-                    maxLife:
-                        800 +
-                        Math.random() * 500,
-
-                    color: color
-
-                });
-
-            }
-
-
-            /*
-             * Ortada kiçik parıltı
-             * üçün əlavə hissəciklər.
-             */
-
-            for (
-                let i = 0;
-                i < 12;
-                i++
-            ) {
-
-                particles.push({
-
-                    x: x,
-
-                    y: y,
-
-                    vx:
-                        (
-                            Math.random() -
-                            0.5
-                        ) * 2,
-
-                    vy:
-                        (
-                            Math.random() -
-                            0.5
-                        ) * 2,
-
-                    size:
-                        2 +
-                        Math.random() * 3,
-
-                    life: 350,
-
-                    maxLife: 350,
-
-                    color: "#ffffff"
-
-                });
-
-            }
-
-        }
-
-
-        /*
-         * =====================================================
-         * MOUSE KLİKİ
-         * =====================================================
-         */
-
-        window.addEventListener(
-            "click",
-            function(event) {
-
-                createFirework(
-                    event.clientX,
-                    event.clientY
-                );
-
-            }
-        );
-
-
-        /*
-         * =====================================================
-         * FİŞƏNGİ ÇƏK
-         * =====================================================
-         */
-
-        function drawParticle(
-            particle
-        ) {
-
-            /*
-             * Hissəciyin qalan ömrü.
-             */
-
-            const opacity =
-                Math.max(
-                    0,
-                    particle.life /
-                    particle.maxLife
-                );
-
-
-            /*
-             * Yumşaq yox olma.
-             */
-
-            ctx.globalAlpha =
-                opacity;
-
-
-            /*
-             * Neon parıltı.
-             */
-
-            ctx.shadowBlur = 12;
-
-            ctx.shadowColor =
-                particle.color;
-
-
-            /*
-             * Dairə.
-             */
-
-            ctx.beginPath();
-
-            ctx.arc(
-                particle.x,
-                particle.y,
-                particle.size,
-                0,
-                Math.PI * 2
-            );
-
-
-            ctx.fillStyle =
-                particle.color;
-
-            ctx.fill();
-
-
-            /*
-             * Sıfırla.
-             */
-
-            ctx.globalAlpha = 1;
-
-        }
-
-
-        /*
-         * =====================================================
-         * ANİMASİYA
-         * =====================================================
-         */
-
-        let lastTime =
-            performance.now();
-
-
-        function animate(
-            currentTime
-        ) {
-
-            /*
-             * Delta time.
-             */
-
-            const delta =
-                Math.min(
-                    32,
-                    currentTime -
-                    lastTime
-                );
-
-
-            lastTime =
-                currentTime;
-
-
-            /*
-             * Qara fonu təmizlə.
-             */
-
-            ctx.clearRect(
-                0,
-                0,
-                width,
-                height
-            );
-
-
-            /*
-             * Hissəcikləri geridən
-             * qabağa yoxla.
-             */
-
-            for (
-                let i =
-                    particles.length - 1;
-
-                i >= 0;
-
-                i--
-            ) {
-
-                const p =
-                    particles[i];
-
-
-                /*
-                 * Hərəkət.
-                 */
-
-                p.x +=
-                    p.vx *
-                    (delta / 16);
-
-                p.y +=
-                    p.vy *
-                    (delta / 16);
-
-
-                /*
-                 * Cazibə qüvvəsi.
-                 *
-                 * Havai fişəng yuxarı-aşağı
-                 * real görünür.
-                 */
-
-                p.vy +=
-                    0.045 *
-                    (delta / 16);
-
-
-                /*
-                 * Hava müqaviməti.
-                 */
-
-                p.vx *=
-                    0.985;
-
-                p.vy *=
-                    0.985;
-
-
-                /*
-                 * Ömrü azaldırıq.
-                 */
-
-                p.life -=
-                    delta;
-
-
-                /*
-                 * Çək.
-                 */
-
-                drawParticle(
-                    p
-                );
-
-
-                /*
-                 * Bitibsə sil.
-                 */
-
-                if (
-                    p.life <= 0
-                ) {
-
-                    particles.splice(
-                        i,
-                        1
-                    );
-
-                }
-
-            }
-
-
-            /*
-             * Növbəti kadr.
-             */
-
-            requestAnimationFrame(
-                animate
-            );
-
-        }
-
-
-        /*
-         * Başlat.
-         */
-
-        requestAnimationFrame(
-            animate
-        );
-
-
-    </script>
-
+<canvas id="fireworks"></canvas>
+<div class="container">
+<h1>Ümid Hacılı</h1>
+<div class="loader"></div>
+</div>
+<script>
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+let width;
+let height;
+function resizeCanvas(){
+width=window.innerWidth;
+height=window.innerHeight;
+canvas.width=width;
+canvas.height=height;
+}
+resizeCanvas();
+window.addEventListener("resize",resizeCanvas);
+const particles=[];
+const colors=["#00eaff","#008cff","#7a00ff","#ff00cc","#ff0055","#ff7700","#ffe600","#00ff88"];
+function createFirework(x,y){
+const amount=60;
+const color=colors[Math.floor(Math.random()*colors.length)];
+for(let i=0;i<amount;i++){
+const angle=(Math.PI*2)*(i/amount)+(Math.random()-0.5)*0.12;
+const speed=1.5+Math.random()*4;
+particles.push({
+x:x,
+y:y,
+vx:Math.cos(angle)*speed,
+vy:Math.sin(angle)*speed,
+size:1.5+Math.random()*2.5,
+life:800+Math.random()*500,
+maxLife:800+Math.random()*500,
+color:color
+});
+}
+for(let i=0;i<12;i++){
+particles.push({
+x:x,
+y:y,
+vx:(Math.random()-0.5)*2,
+vy:(Math.random()-0.5)*2,
+size:2+Math.random()*3,
+life:350,
+maxLife:350,
+color:"#ffffff"
+});
+}
+}
+window.addEventListener("click",function(event){
+createFirework(event.clientX,event.clientY);
+});
+function drawParticle(particle){
+const opacity=Math.max(0,particle.life/particle.maxLife);
+ctx.globalAlpha=opacity;
+ctx.shadowBlur=12;
+ctx.shadowColor=particle.color;
+ctx.beginPath();
+ctx.arc(particle.x,particle.y,particle.size,0,Math.PI*2);
+ctx.fillStyle=particle.color;
+ctx.fill();
+ctx.globalAlpha=1;
+}
+let lastTime=performance.now();
+function animate(currentTime){
+const delta=Math.min(32,currentTime-lastTime);
+lastTime=currentTime;
+ctx.clearRect(0,0,width,height);
+for(let i=particles.length-1;i>=0;i--){
+const p=particles[i];
+p.x+=p.vx*(delta/16);
+p.y+=p.vy*(delta/16);
+p.vy+=0.045*(delta/16);
+p.vx*=0.985;
+p.vy*=0.985;
+p.life-=delta;
+drawParticle(p);
+if(p.life<=0){
+particles.splice(i,1);
+}
+}
+requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+</script>
 </body>
-
 </html>
