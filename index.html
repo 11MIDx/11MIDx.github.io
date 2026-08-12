@@ -8,7 +8,6 @@
 <meta name="description" content="11MIDx - Ümid Hacılı tərəfindən hazırlanmış şəxsi veb sayt.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://11midx.github.io/">
-
 <style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000}
@@ -17,14 +16,14 @@ body{display:flex;justify-content:center;align-items:center;color:#fff;font-fami
 .screen{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;z-index:5}
 .screen.hidden{display:none}
 .container{text-align:center}
-h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff;user-select:none;-webkit-user-select:none;-moz-user-select:none}
+h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff;user-select:none;-webkit-user-select:none}
 .start-button{width:140px;height:54px;margin:auto;padding:0;border:1px solid #292929;border-radius:15px;background:#000;display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 0 18px rgba(255,255,255,.28),0 0 38px rgba(255,255,255,.12);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;user-select:none;-webkit-user-select:none}
 .start-button:hover{transform:scale(1.04);border-color:#555;box-shadow:0 0 25px rgba(255,255,255,.5),0 0 50px rgba(255,255,255,.18)}
 .start-button span{width:0;height:0;margin-left:5px;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:20px solid #fff;filter:drop-shadow(0 0 2px #fff)}
 .second-screen{width:100%;height:100%;display:flex;justify-content:center;align-items:center}
-.back-button{position:fixed;top:25px;left:25px;padding:10px 18px;border:1px solid #333;border-radius:10px;background:#000;color:#fff;font-size:15px;cursor:pointer;box-shadow:0 0 15px rgba(255,255,255,.15);transition:.2s;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}
+.back-button{position:fixed;top:25px;left:25px;padding:10px 18px;border:1px solid #333;border-radius:10px;background:#000;color:#fff;font-size:15px;cursor:pointer;box-shadow:0 0 15px rgba(255,255,255,.15);transition:.2s;user-select:none;-webkit-user-select:none}
 .back-button:hover{border-color:#666;box-shadow:0 0 20px rgba(255,255,255,.3)}
-.best-score{position:fixed;top:28px;right:30px;font-size:16px;font-weight:600;color:#fff;user-select:none}
+.best-score{display:none;position:fixed;top:28px;right:30px;font-size:16px;font-weight:600;color:#fff;user-select:none;-webkit-user-select:none}
 .game{width:360px;max-width:90vw;text-align:center;user-select:none}
 .rules{background:#050505;border:1px solid #252525;border-radius:18px;padding:28px 25px;box-shadow:0 0 30px rgba(255,255,255,.08)}
 .rules h2{margin:0 0 15px;font-size:27px}
@@ -46,169 +45,70 @@ h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff;user-select:none;-w
 .result-text{margin-top:8px;font-size:14px;color:#aaa}
 .restart-button{margin-top:14px;padding:10px 20px;border:1px solid #444;border-radius:9px;background:#fff;color:#000;font-weight:bold;cursor:pointer}
 .coin-pop{animation:coinPop .25s ease}
-@keyframes coinPop{
-0%{transform:scale(1)}
-50%{transform:scale(1.16)}
-100%{transform:scale(1)}
-}
-@media(max-width:600px){
-h1{font-size:40px}
-.start-button{width:125px}
-.best-score{top:20px;right:18px;font-size:14px}
-.game{width:320px}
-.coin-count{font-size:68px}
-.buttons{flex-direction:column}
-.game-button{width:100%}
-}
+@keyframes coinPop{0%{transform:scale(1)}50%{transform:scale(1.16)}100%{transform:scale(1)}}
+@media(max-width:600px){h1{font-size:40px}.start-button{width:125px}.best-score{top:20px;right:18px;font-size:14px}.game{width:320px}.coin-count{font-size:68px}.buttons{flex-direction:column}.game-button{width:100%}}
 </style>
 </head>
-
 <body>
-
 <canvas id="fireworks"></canvas>
-
 <div class="screen" id="firstScreen">
 <div class="container">
 <h1>Ümid Hacılı</h1>
-<button class="start-button" id="startButton" aria-label="Start">
-<span></span>
-</button>
+<button class="start-button" id="startButton" aria-label="Başla"><span></span></button>
 </div>
 </div>
-
 <div class="screen hidden" id="secondScreen">
-
-<div class="best-score">
-Best Score: <span id="bestScore">0</span>
-</div>
-
+<div class="best-score" id="bestScoreBox">Ən yaxşı nəticə: <span id="bestScore">0</span></div>
 <button class="back-button" id="backButton">← Geri</button>
-
 <div class="game">
-
 <div class="rules" id="rules">
-
 <h2>Coin Risk</h2>
-
-<p>Məqsəd mümkün qədər çox coin toplamaqdır.</p>
-
-<p class="rule-risk">
-Hər "DAVAM ET" basışında 50% şansla +1 coin qazanırsan.
-</p>
-
-<p class="rule-risk">
-Digər 50% şansda isə bütün coinlərin 0 olur.
-</p>
-
-<p>
-İstədiyin vaxt "BİTİR" düyməsinə basıb qazandığın coinləri nəticə kimi saxlaya bilərsən.
-</p>
-
-<p>
-Əgər nəticən əvvəlki Best Score-dan böyükdürsə, yeni Best Score olacaq.
-</p>
-
-<button class="start-game" id="startGame">
-OYUNA BAŞLA
-</button>
-
+<p>Məqsəd mümkün qədər çox xal toplamaqdır.</p>
+<p class="rule-risk">Hər "Davam et" basışında 50% ehtimalla 1 xal qazanırsan.</p>
+<p class="rule-risk">Digər 50% ehtimalda isə bütün xalların 0-a düşür.</p>
+<p>İstədiyin vaxt "Bitir" düyməsinə basıb topladığın xalları nəticə kimi saxlaya bilərsən.</p>
+<p>Nəticən əvvəlki ən yaxşı nəticədən böyük olarsa, yeni rekordun olacaq.</p>
+<button class="start-game" id="startGame">Oyuna başla</button>
 </div>
-
 <div class="coin-area" id="coinArea">
-
-<div class="coin-title">COINLƏRİN</div>
-
+<div class="coin-title">TOPLADIĞIN XALLAR</div>
 <div class="coin-count" id="coinCount">0</div>
-
-<div class="coin-label">coin</div>
-
+<div class="coin-label">xal</div>
 <div class="message" id="message"></div>
-
 <div class="buttons">
-
-<button class="game-button continue-button" id="continueButton">
-DAVAM ET
-</button>
-
-<button class="game-button finish-button" id="finishButton">
-BİTİR
-</button>
-
+<button class="game-button continue-button" id="continueButton">Davam et</button>
+<button class="game-button finish-button" id="finishButton">Bitir</button>
 </div>
-
 <div class="result" id="result">
-
-<div class="result-title" id="resultTitle">
-Nəticə
-</div>
-
+<div class="result-title" id="resultTitle">Nəticə</div>
 <div class="result-text" id="resultText"></div>
-
-<button class="restart-button" id="restartButton">
-YENİDƏN OYNA
-</button>
-
+<button class="restart-button" id="restartButton">Yenidən oyna</button>
 </div>
-
 </div>
-
 </div>
-
 </div>
-
 <script>
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
 let width,height;
-
-function resizeCanvas(){
-width=window.innerWidth;
-height=window.innerHeight;
-canvas.width=width;
-canvas.height=height;
-}
-
+function resizeCanvas(){width=window.innerWidth;height=window.innerHeight;canvas.width=width;canvas.height=height}
 resizeCanvas();
 window.addEventListener("resize",resizeCanvas);
-
 const particles=[];
 const colors=["#00eaff","#008cff","#7a00ff","#ff00cc","#ff0055","#ff7700","#ffe600","#00ff88"];
-
 function createFirework(x,y){
 const amount=60;
 const color=colors[Math.floor(Math.random()*colors.length)];
-
 for(let i=0;i<amount;i++){
 const angle=Math.PI*2*(i/amount)+(Math.random()-.5)*.12;
 const speed=1.5+Math.random()*4;
 const life=800+Math.random()*500;
-
-particles.push({
-x:x,
-y:y,
-vx:Math.cos(angle)*speed,
-vy:Math.sin(angle)*speed,
-size:1.5+Math.random()*2.5,
-life:life,
-maxLife:life,
-color:color
-});
+particles.push({x:x,y:y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,size:1.5+Math.random()*2.5,life:life,maxLife:life,color:color})
 }
-
 for(let i=0;i<12;i++){
-particles.push({
-x:x,
-y:y,
-vx:(Math.random()-.5)*2,
-vy:(Math.random()-.5)*2,
-size:2+Math.random()*3,
-life:350,
-maxLife:350,
-color:"#fff"
-});
+particles.push({x:x,y:y,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,size:2+Math.random()*3,life:350,maxLife:350,color:"#fff"})
 }
 }
-
 window.addEventListener("click",function(e){
 if(e.target.closest("#startButton"))return;
 if(e.target.closest("#backButton"))return;
@@ -216,7 +116,6 @@ if(e.target.closest("#coinArea"))return;
 if(e.target.closest("#rules"))return;
 createFirework(e.clientX,e.clientY);
 });
-
 function drawParticle(p){
 const opacity=Math.max(0,p.life/p.maxLife);
 ctx.globalAlpha=opacity;
@@ -228,83 +127,51 @@ ctx.fillStyle=p.color;
 ctx.fill();
 ctx.globalAlpha=1;
 }
-
 let lastTime=performance.now();
-
 function animate(time){
 const delta=Math.min(32,time-lastTime);
 lastTime=time;
 ctx.clearRect(0,0,width,height);
-
 for(let i=particles.length-1;i>=0;i--){
 const p=particles[i];
-
 p.x+=p.vx*(delta/16);
 p.y+=p.vy*(delta/16);
 p.vy+=.045*(delta/16);
 p.vx*=.985;
 p.vy*=.985;
 p.life-=delta;
-
 drawParticle(p);
-
 if(p.life<=0)particles.splice(i,1);
 }
-
 requestAnimationFrame(animate);
 }
-
 requestAnimationFrame(animate);
-
 const firstScreen=document.getElementById("firstScreen");
 const secondScreen=document.getElementById("secondScreen");
 const rules=document.getElementById("rules");
 const coinArea=document.getElementById("coinArea");
-
-function showFirst(){
-firstScreen.classList.remove("hidden");
-secondScreen.classList.add("hidden");
-}
-
-function showSecond(){
-firstScreen.classList.add("hidden");
-secondScreen.classList.remove("hidden");
-}
-
-function showRules(){
-rules.style.display="block";
-coinArea.style.display="none";
-}
-
-function showGame(){
-rules.style.display="none";
-coinArea.style.display="block";
-}
-
+const bestScoreBox=document.getElementById("bestScoreBox");
+function showFirst(){firstScreen.classList.remove("hidden");secondScreen.classList.add("hidden");bestScoreBox.style.display="none"}
+function showSecond(){firstScreen.classList.add("hidden");secondScreen.classList.remove("hidden")}
+function showRules(){rules.style.display="block";coinArea.style.display="none";bestScoreBox.style.display="none"}
+function showGame(){rules.style.display="none";coinArea.style.display="block";bestScoreBox.style.display="block"}
 let coins=0;
 let gameStarted=false;
 let gameFinished=false;
-
 let bestScore=parseInt(localStorage.getItem("coinBestScore")||"0");
-
 const bestScoreEl=document.getElementById("bestScore");
 const coinCount=document.getElementById("coinCount");
 const message=document.getElementById("message");
 const result=document.getElementById("result");
 const resultTitle=document.getElementById("resultTitle");
 const resultText=document.getElementById("resultText");
-
 bestScoreEl.textContent=bestScore;
-
 function updateCoins(){
 coinCount.textContent=coins;
 coinCount.classList.remove("coin-pop");
 void coinCount.offsetWidth;
 coinCount.classList.add("coin-pop");
 }
-
-/* SAYTIN HISTORY-SI */
-
 if(location.hash==="#game"){
 history.replaceState({page:"game"},"","#game");
 showSecond();
@@ -318,150 +185,90 @@ showRules();
 history.replaceState({page:"first"},"","#home");
 showFirst();
 }
-
-/* ƏSAS START */
-
 document.getElementById("startButton").addEventListener("click",function(e){
 e.stopPropagation();
-
 history.pushState({page:"second"},"","#second");
-
 showSecond();
 showRules();
 gameStarted=false;
 gameFinished=false;
 });
-
-/* OYUNA BAŞLA */
-
 document.getElementById("startGame").addEventListener("click",function(e){
 e.stopPropagation();
-
 if(gameStarted)return;
-
 coins=0;
 gameStarted=true;
 gameFinished=false;
-
 coinCount.textContent="0";
 message.textContent="Risk etməyə hazırsan?";
 result.style.display="none";
-
+bestScoreBox.style.display="block";
 history.pushState({page:"game"},"","#game");
-
 showGame();
 });
-
-/* DAVAM ET */
-
 document.getElementById("continueButton").addEventListener("click",function(e){
 e.stopPropagation();
-
 if(!gameStarted||gameFinished)return;
-
 const win=Math.random()<0.5;
-
 if(win){
 coins++;
 updateCoins();
-
-if(coins>=5){
-message.textContent="🔥 Əla gedir! Risk etməyə davam edirsən?";
-}else{
-message.textContent="✓ Coin qazandın! Yenə risk edirsən?";
-}
+if(coins>=5){message.textContent="🔥 Əla gedir! Davam etməyə hazırsan?"}
+else{message.textContent="✓ Xal qazandın! Yenə risk edirsən?"}
 }else{
 coins=0;
 updateCoins();
-message.textContent="💥 Uduzdun! Bütün coinlər getdi.";
+message.textContent="💥 Təəssüf! Bütün xallarını itirdin.";
 }
 });
-
-/* BİTİR */
-
 document.getElementById("finishButton").addEventListener("click",function(e){
 e.stopPropagation();
-
 if(!gameStarted||gameFinished)return;
-
 gameFinished=true;
-
 const finalCoins=coins;
-
 if(finalCoins>bestScore){
-
 bestScore=finalCoins;
-
 localStorage.setItem("coinBestScore",bestScore);
-
 bestScoreEl.textContent=bestScore;
-
-resultTitle.textContent="🏆 Yeni Best Score!";
-resultText.textContent="Sən "+finalCoins+" coin topladın və yeni rekord yaratdın.";
-
+resultTitle.textContent="🏆 Yeni rekord!";
+resultText.textContent="Sən "+finalCoins+" xal topladın və yeni rekord yaratdın.";
 }else{
-
 resultTitle.textContent="Oyun bitdi";
-resultText.textContent="Sənin nəticən: "+finalCoins+" coin. Best Score: "+bestScore+".";
-
+resultText.textContent="Sənin nəticən: "+finalCoins+" xal. Ən yaxşı nəticə: "+bestScore+".";
 }
-
 result.style.display="block";
 message.textContent="Nəticən yadda saxlanıldı.";
 });
-
-/* YENİDƏN OYNA */
-
 document.getElementById("restartButton").addEventListener("click",function(e){
 e.stopPropagation();
-
 coins=0;
 gameStarted=true;
 gameFinished=false;
-
 coinCount.textContent="0";
 message.textContent="Yenidən risk etməyə hazırsan?";
 result.style.display="none";
 });
-
-/* SAYTIN GERİ DÜYMƏSİ */
-
 document.getElementById("backButton").addEventListener("click",function(e){
 e.stopPropagation();
 history.back();
 });
-
-/* BRAUZERİN GERİ DÜYMƏSİ */
-
 window.addEventListener("popstate",function(e){
-
 if(e.state&&e.state.page==="game"){
-
 gameStarted=true;
 gameFinished=false;
-
 showSecond();
 showGame();
-
 }else if(e.state&&e.state.page==="second"){
-
 gameStarted=false;
 gameFinished=false;
-
 showSecond();
 showRules();
-
 }else{
-
 gameStarted=false;
 gameFinished=false;
-
 showFirst();
-
 }
-
 });
 </script>
-
 </body>
 </html>
