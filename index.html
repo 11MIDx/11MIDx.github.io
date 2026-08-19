@@ -9,27 +9,27 @@
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://11midx.github.io/">
 <style>
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-user-select:none;user-select:none}
 html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000}
 body{display:flex;justify-content:center;align-items:center;color:#fff;font-family:Arial,sans-serif}
 #fireworks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 .screen{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;z-index:5}
 .hidden{display:none!important}
 .container{text-align:center}
-h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff;user-select:none;-webkit-user-select:none}
+h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff}
 .start-button{width:150px;height:58px;border:1px solid #292929;border-radius:16px;background:#000;display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 0 18px rgba(255,255,255,.28),0 0 38px rgba(255,255,255,.12);transition:.2s}
 .start-button:hover{transform:scale(1.04);box-shadow:0 0 28px rgba(255,255,255,.45),0 0 55px rgba(255,255,255,.15)}
 .start-button span{width:0;height:0;margin-left:5px;border-top:14px solid transparent;border-bottom:14px solid transparent;border-left:21px solid #fff;filter:drop-shadow(0 0 2px #fff)}
-.back-button{position:fixed;top:25px;left:25px;padding:10px 18px;border:1px solid #333;border-radius:10px;background:#000;color:#fff;font-size:15px;cursor:pointer;z-index:20;user-select:none}
+.game{width:100%;height:100%;position:relative;display:flex;justify-content:center;align-items:center}
+.back-button{position:fixed;top:25px;left:25px;padding:10px 18px;border:1px solid #333;border-radius:10px;background:#000;color:#fff;font-size:15px;cursor:pointer;z-index:20}
 .back-button:hover{border-color:#666;box-shadow:0 0 18px rgba(255,255,255,.25)}
-.game{width:100%;height:100%;position:relative}
 .rules{width:380px;max-width:90vw;background:#050505;border:1px solid #252525;border-radius:18px;padding:28px 25px;text-align:center;box-shadow:0 0 30px rgba(255,255,255,.08)}
 .rules h2{margin:0 0 18px;font-size:28px}
 .rules p{margin:10px 0;font-size:15px;line-height:1.6;color:#ccc}
 .start-game{margin-top:18px;padding:12px 30px;border:1px solid #444;border-radius:11px;background:#fff;color:#000;font-weight:bold;cursor:pointer;transition:.2s}
 .start-game:hover{transform:scale(1.04);box-shadow:0 0 20px rgba(255,255,255,.25)}
 .name-box{position:fixed;top:25px;left:25px;display:none;z-index:10}
-.name-input{width:180px;padding:10px 13px;border:1px solid #333;border-radius:10px;background:#050505;color:#fff;outline:none;font-size:14px}
+.name-input{width:180px;padding:10px 13px;border:1px solid #333;border-radius:10px;background:#050505;color:#fff;outline:none;font-size:14px;-webkit-user-select:text;user-select:text}
 .name-input::placeholder{color:#777}
 .leaderboard{position:fixed;top:25px;right:25px;width:230px;max-height:70vh;overflow:hidden;border:1px solid #222;border-radius:14px;background:rgba(5,5,5,.94);padding:15px;display:none;z-index:10}
 .leaderboard-title{text-align:center;font-size:16px;font-weight:bold;margin-bottom:12px}
@@ -41,7 +41,7 @@ h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff;user-select:none;-w
 .rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rank-score{font-weight:bold;white-space:nowrap}
 .my-rank{color:#fff!important;background:#111;border-radius:6px;padding-left:7px;padding-right:7px}
-.click-area{position:absolute;inset:0;display:none;justify-content:center;align-items:center;cursor:pointer;user-select:none}
+.click-area{position:absolute;inset:0;display:none;justify-content:center;align-items:center;cursor:pointer}
 .score{text-align:center;pointer-events:none}
 .score-number{font-size:110px;font-weight:700;line-height:1;text-shadow:0 0 30px rgba(255,255,255,.15);transition:transform .08s ease}
 .score-label{margin-top:15px;font-size:14px;color:#777;letter-spacing:2px}
@@ -59,21 +59,16 @@ h1{font-size:40px}
 </style>
 </head>
 <body>
-
 <canvas id="fireworks"></canvas>
-
 <div class="screen" id="firstScreen">
 <div class="container">
 <h1>Ümid Hacılı</h1>
 <button class="start-button" id="startButton" aria-label="Başla"><span></span></button>
 </div>
 </div>
-
 <div class="screen hidden" id="secondScreen">
 <button class="back-button" id="backButton">← Geri</button>
-
 <div class="game">
-
 <div class="rules" id="rules">
 <h2>🖱️ Klik Yarışı</h2>
 <p>Məqsəd mümkün qədər çox klik toplamaq və reytinqdə ən yüksək yerə çıxmaqdır.</p>
@@ -84,34 +79,28 @@ h1{font-size:40px}
 <p>Əsas məqsəd <b>1-ci yerə çıxmaqdır! 🏆</b></p>
 <button class="start-game" id="startGame">Oyuna başla</button>
 </div>
-
 <div class="name-box" id="nameBox">
-<input class="name-input" id="nameInput" maxlength="20" placeholder="Adını yaz...">
+<input class="name-input" id="nameInput" maxlength="20" placeholder="Adını yaz..." autocomplete="off">
 </div>
-
 <div class="leaderboard" id="leaderboard">
 <div class="leaderboard-title">🏆 Reytinq</div>
 <div class="leaderboard-list" id="leaderboardList">
 <div class="loading">Yüklənir...</div>
 </div>
 </div>
-
 <div class="click-area" id="clickArea">
 <div class="score">
 <div class="score-number" id="scoreNumber">0</div>
 <div class="score-label">KLİK SAYI</div>
 </div>
 </div>
-
 </div>
 </div>
-
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import{getDatabase,ref,onValue,set,runTransaction}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-/* BURANI ÖZ FIREBASE MƏLUMATLARINLA DƏYİŞ */
 const firebaseConfig={
 apiKey:"SƏNİN_API_KEY",
 authDomain:"SƏNİN_LAYİHƏN.firebaseapp.com",
@@ -125,7 +114,6 @@ appId:"SƏNİN_APP_ID"
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 const auth=getAuth(app);
-
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
 let width,height;
@@ -152,11 +140,6 @@ particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,size:1.5+M
 }
 for(let i=0;i<12;i++)particles.push({x,y,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,size:2+Math.random()*3,life:350,maxLife:350,color:"#fff"});
 }
-
-addEventListener("click",e=>{
-if(e.target.closest("#startButton")||e.target.closest("#backButton")||e.target.closest("#rules")||e.target.closest("#nameBox")||e.target.closest("#leaderboard")||e.target.closest("#clickArea"))return;
-createFirework(e.clientX,e.clientY);
-});
 
 function drawParticle(p){
 ctx.globalAlpha=Math.max(0,p.life/p.maxLife);
@@ -190,6 +173,12 @@ requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
 
+document.addEventListener("contextmenu",e=>e.preventDefault());
+document.addEventListener("selectstart",e=>{
+if(!e.target.classList.contains("name-input"))e.preventDefault();
+});
+document.addEventListener("dragstart",e=>e.preventDefault());
+
 const firstScreen=document.getElementById("firstScreen");
 const secondScreen=document.getElementById("secondScreen");
 const rules=document.getElementById("rules");
@@ -208,6 +197,7 @@ let score=0;
 let playerName="";
 let gameStarted=false;
 let players={};
+let lastSyncedScore=0;
 
 function showFirst(){
 firstScreen.classList.remove("hidden");
@@ -237,6 +227,10 @@ function cleanName(name){
 return name.trim().replace(/[.#$/[\]]/g,"").slice(0,20);
 }
 
+function escapeHtml(s){
+return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
 function renderLeaderboard(){
 const arr=Object.entries(players).map(([id,p])=>({id,...p}));
 arr.sort((a,b)=>(b.score||0)-(a.score||0));
@@ -251,17 +245,6 @@ row.className="rank"+(p.id===uid?" my-rank":"");
 row.innerHTML='<span class="rank-name">'+(i+1)+". "+escapeHtml(p.name||"Adsız")+'</span><span class="rank-score">'+(p.score||0)+'</span>';
 leaderboardList.appendChild(row);
 });
-}
-
-function escapeHtml(s){
-return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-}
-
-function updateScore(){
-scoreNumber.textContent=score;
-scoreNumber.classList.remove("click-effect");
-void scoreNumber.offsetWidth;
-scoreNumber.classList.add("click-effect");
 }
 
 onAuthStateChanged(auth,user=>{
@@ -295,6 +278,7 @@ alert("Bağlantı hazırlanır. Bir az gözlə.");
 return;
 }
 score=0;
+lastSyncedScore=0;
 gameStarted=true;
 updateScore();
 await set(ref(db,"players/"+uid),{name:playerName,score:0});
@@ -302,13 +286,18 @@ history.pushState({page:"game"},"","#game");
 showGame();
 });
 
+function updateScore(){
+scoreNumber.textContent=score;
+scoreNumber.classList.remove("click-effect");
+void scoreNumber.offsetWidth;
+scoreNumber.classList.add("click-effect");
+}
+
 clickArea.addEventListener("click",()=>{
 if(!gameStarted||!uid)return;
 score++;
 updateScore();
 });
-
-let lastSyncedScore=0;
 
 setInterval(()=>{
 if(!gameStarted||!uid||score===lastSyncedScore)return;
