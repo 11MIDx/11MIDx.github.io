@@ -11,23 +11,24 @@
 <style>
 *{box-sizing:border-box;-webkit-user-select:none;user-select:none}
 html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000}
-body{display:flex;justify-content:center;align-items:center;color:#fff;font-family:Arial,sans-serif}
+body{color:#fff;font-family:Arial,sans-serif}
+button,input{font-family:Arial,sans-serif}
 #fireworks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 .screen{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;z-index:5}
 .hidden{display:none!important}
 .container{text-align:center}
-h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff}
-.start-button{width:150px;height:58px;border:1px solid #292929;border-radius:16px;background:#000;display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 0 18px rgba(255,255,255,.28),0 0 38px rgba(255,255,255,.12);transition:.2s}
+h1{margin:0 0 30px;font-size:64px;font-weight:600;color:#fff;text-align:center}
+.start-button{width:185px;height:68px;margin:0 auto;border:1px solid #292929;border-radius:17px;background:#000;display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 0 18px rgba(255,255,255,.28),0 0 38px rgba(255,255,255,.12);transition:.2s}
 .start-button:hover{transform:scale(1.04);box-shadow:0 0 28px rgba(255,255,255,.45),0 0 55px rgba(255,255,255,.15)}
 .start-button span{width:0;height:0;margin-left:5px;border-top:14px solid transparent;border-bottom:14px solid transparent;border-left:21px solid #fff;filter:drop-shadow(0 0 2px #fff)}
-.game{width:100%;height:100%;position:relative;display:flex;justify-content:center;align-items:center}
+.game{position:absolute;inset:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center}
 .back-button{position:fixed;top:25px;left:25px;padding:10px 18px;border:1px solid #333;border-radius:10px;background:#000;color:#fff;font-size:15px;cursor:pointer;z-index:20}
-.back-button:hover{border-color:#666;box-shadow:0 0 18px rgba(255,255,255,.25)}
-.rules{width:380px;max-width:90vw;background:#050505;border:1px solid #252525;border-radius:18px;padding:28px 25px;text-align:center;box-shadow:0 0 30px rgba(255,255,255,.08)}
+.back-button:hover{box-shadow:0 0 18px rgba(255,255,255,.25)}
+.rules{width:420px;max-width:90vw;background:#050505;border:1px solid #252525;border-radius:18px;padding:28px 25px;text-align:center;box-shadow:0 0 30px rgba(255,255,255,.08)}
 .rules h2{margin:0 0 18px;font-size:28px}
 .rules p{margin:10px 0;font-size:15px;line-height:1.6;color:#ccc}
-.start-game{margin-top:18px;padding:12px 30px;border:1px solid #444;border-radius:11px;background:#fff;color:#000;font-weight:bold;cursor:pointer;transition:.2s}
-.start-game:hover{transform:scale(1.04);box-shadow:0 0 20px rgba(255,255,255,.25)}
+.start-game{margin-top:18px;padding:12px 30px;border:1px solid #444;border-radius:11px;background:#fff;color:#000;font-weight:bold;cursor:pointer}
+.start-game:hover{transform:scale(1.04)}
 .name-box{position:fixed;top:25px;left:25px;display:none;z-index:10}
 .name-input{width:180px;padding:10px 13px;border:1px solid #333;border-radius:10px;background:#050505;color:#fff;outline:none;font-size:14px;-webkit-user-select:text;user-select:text}
 .name-input::placeholder{color:#777}
@@ -36,148 +37,135 @@ h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff}
 .leaderboard-list{font-size:13px;max-height:55vh;overflow-y:auto}
 .leaderboard-list::-webkit-scrollbar{width:3px}
 .leaderboard-list::-webkit-scrollbar-thumb{background:#444}
-.rank{display:flex;justify-content:space-between;gap:8px;padding:8px 4px;border-bottom:1px solid #181818;color:#bbb}
+.rank{display:flex;justify-content:space-between;padding:8px 4px;border-bottom:1px solid #181818;color:#bbb}
 .rank:first-child{color:#fff}
 .rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rank-score{font-weight:bold;white-space:nowrap}
+.rank-score{font-weight:bold}
 .my-rank{color:#fff!important;background:#111;border-radius:6px;padding-left:7px;padding-right:7px}
 .click-area{position:absolute;inset:0;display:none;justify-content:center;align-items:center;cursor:pointer}
 .score{text-align:center;pointer-events:none}
-.score-number{font-size:110px;font-weight:700;line-height:1;text-shadow:0 0 30px rgba(255,255,255,.15);transition:transform .08s ease}
+.score-number{font-size:110px;font-weight:700;line-height:1;text-shadow:0 0 30px rgba(255,255,255,.15)}
 .score-label{margin-top:15px;font-size:14px;color:#777;letter-spacing:2px}
 .click-effect{animation:clickEffect .12s ease}
 @keyframes clickEffect{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
-.loading{color:#777;text-align:center;padding:10px}
 @media(max-width:700px){
-h1{font-size:40px}
-.start-button{width:130px}
+h1{font-size:45px}
+.start-button{width:165px;height:62px}
+.leaderboard{top:65px;right:12px;width:200px}
 .name-box{top:18px;left:18px}
 .name-input{width:145px}
-.leaderboard{top:65px;right:12px;width:200px;max-height:45vh}
 .score-number{font-size:75px}
 }
 </style>
 </head>
 <body>
+
 <canvas id="fireworks"></canvas>
+
 <div class="screen" id="firstScreen">
 <div class="container">
 <h1>Ümid Hacılı</h1>
-<button class="start-button" id="startButton" aria-label="Başla"><span></span></button>
+<button class="start-button" id="startButton"><span></span></button>
 </div>
 </div>
+
 <div class="screen hidden" id="secondScreen">
 <button class="back-button" id="backButton">← Geri</button>
+
 <div class="game">
+
 <div class="rules" id="rules">
 <h2>🖱️ Klik Yarışı</h2>
 <p>Məqsəd mümkün qədər çox klik toplamaq və reytinqdə ən yüksək yerə çıxmaqdır.</p>
 <p>Oyuna başlamazdan əvvəl adını yazırsan.</p>
 <p>Ekrana hər klik etdikdə nəticən <b>+1</b> artır.</p>
 <p>Nə qədər çox klik etsən, reytinqdə yerin bir o qədər yüksələr.</p>
-<p>Sağ tərəfdə sayta daxil olan oyunçuların ümumi reytinqi göstərilir.</p>
+<p>Sağ tərəfdə oyunçuların reytinqi göstərilir.</p>
 <p>Əsas məqsəd <b>1-ci yerə çıxmaqdır! 🏆</b></p>
 <button class="start-game" id="startGame">Oyuna başla</button>
 </div>
+
 <div class="name-box" id="nameBox">
 <input class="name-input" id="nameInput" maxlength="20" placeholder="Adını yaz..." autocomplete="off">
 </div>
+
 <div class="leaderboard" id="leaderboard">
 <div class="leaderboard-title">🏆 Reytinq</div>
-<div class="leaderboard-list" id="leaderboardList">
-<div class="loading">Yüklənir...</div>
+<div class="leaderboard-list" id="leaderboardList"></div>
 </div>
-</div>
+
 <div class="click-area" id="clickArea">
 <div class="score">
 <div class="score-number" id="scoreNumber">0</div>
 <div class="score-label">KLİK SAYI</div>
 </div>
 </div>
+
 </div>
 </div>
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import{getDatabase,ref,onValue,set,runTransaction}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-const firebaseConfig={
-apiKey:"SƏNİN_API_KEY",
-authDomain:"SƏNİN_LAYİHƏN.firebaseapp.com",
-databaseURL:"https://SƏNİN-LAYİHƏN-default-rtdb.firebaseio.com",
-projectId:"SƏNİN_LAYİHƏN",
-storageBucket:"SƏNİN-LAYİHƏN.firebasestorage.app",
-messagingSenderId:"SƏNİN_MESSAGING_ID",
-appId:"SƏNİN_APP_ID"
-};
+<script>
+document.addEventListener("contextmenu",e=>e.preventDefault());
+document.addEventListener("selectstart",e=>{
+if(!e.target.classList.contains("name-input"))e.preventDefault()
+});
+document.addEventListener("dragstart",e=>e.preventDefault());
 
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
-const auth=getAuth(app);
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
 let width,height;
 
-function resizeCanvas(){
+function resize(){
 width=innerWidth;
 height=innerHeight;
 canvas.width=width;
 canvas.height=height;
 }
-resizeCanvas();
-addEventListener("resize",resizeCanvas);
+resize();
+addEventListener("resize",resize);
 
 const particles=[];
 const colors=["#00eaff","#008cff","#7a00ff","#ff00cc","#ff0055","#ff7700","#ffe600","#00ff88"];
 
-function createFirework(x,y){
+function firework(x,y){
 const color=colors[Math.floor(Math.random()*colors.length)];
-for(let i=0;i<60;i++){
-const angle=Math.PI*2*(i/60)+(Math.random()-.5)*.12;
-const speed=1.5+Math.random()*4;
-const life=800+Math.random()*500;
-particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,size:1.5+Math.random()*2.5,life,maxLife:life,color});
+for(let i=0;i<45;i++){
+const a=Math.PI*2*i/45+(Math.random()-.5)*.12;
+const s=1.5+Math.random()*4;
+const life=700+Math.random()*400;
+particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,size:1.5+Math.random()*2,life,maxLife:life,color});
 }
-for(let i=0;i<12;i++)particles.push({x,y,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,size:2+Math.random()*3,life:350,maxLife:350,color:"#fff"});
 }
 
-function drawParticle(p){
+let last=performance.now();
+
+function animate(t){
+const d=Math.min(32,t-last);
+last=t;
+ctx.clearRect(0,0,width,height);
+
+for(let i=particles.length-1;i>=0;i--){
+const p=particles[i];
+p.x+=p.vx*d/16;
+p.y+=p.vy*d/16;
+p.vy+=.045*d/16;
+p.vx*=.985;
+p.vy*=.985;
+p.life-=d;
 ctx.globalAlpha=Math.max(0,p.life/p.maxLife);
-ctx.shadowBlur=12;
+ctx.shadowBlur=10;
 ctx.shadowColor=p.color;
 ctx.beginPath();
 ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
 ctx.fillStyle=p.color;
 ctx.fill();
-ctx.globalAlpha=1;
-}
 
-let lastTime=performance.now();
-
-function animate(t){
-const d=Math.min(32,t-lastTime);
-lastTime=t;
-ctx.clearRect(0,0,width,height);
-for(let i=particles.length-1;i>=0;i--){
-const p=particles[i];
-p.x+=p.vx*(d/16);
-p.y+=p.vy*(d/16);
-p.vy+=.045*(d/16);
-p.vx*=.985;
-p.vy*=.985;
-p.life-=d;
-drawParticle(p);
 if(p.life<=0)particles.splice(i,1);
 }
+ctx.globalAlpha=1;
 requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
-
-document.addEventListener("contextmenu",e=>e.preventDefault());
-document.addEventListener("selectstart",e=>{
-if(!e.target.classList.contains("name-input"))e.preventDefault();
-});
-document.addEventListener("dragstart",e=>e.preventDefault());
 
 const firstScreen=document.getElementById("firstScreen");
 const secondScreen=document.getElementById("secondScreen");
@@ -192,21 +180,47 @@ const leaderboardList=document.getElementById("leaderboardList");
 const clickArea=document.getElementById("clickArea");
 const scoreNumber=document.getElementById("scoreNumber");
 
-let uid=null;
 let score=0;
-let playerName="";
 let gameStarted=false;
-let players={};
-let lastSyncedScore=0;
+let playerName="";
+let players=JSON.parse(localStorage.getItem("clickPlayers")||"{}");
+
+function savePlayers(){
+localStorage.setItem("clickPlayers",JSON.stringify(players));
+}
+
+function renderLeaderboard(){
+const list=Object.entries(players).sort((a,b)=>b[1].score-a[1].score);
+leaderboardList.innerHTML="";
+
+if(!list.length){
+leaderboardList.innerHTML='<div style="color:#777;text-align:center">Hələ oyunçu yoxdur</div>';
+return;
+}
+
+list.slice(0,50).forEach((item,i)=>{
+const name=item[0];
+const data=item[1];
+const row=document.createElement("div");
+row.className="rank"+(name===playerName?" my-rank":"");
+row.innerHTML="<span class='rank-name'>"+(i+1)+". "+escapeHtml(name)+"</span><span class='rank-score'>"+data.score+"</span>";
+leaderboardList.appendChild(row);
+});
+}
+
+function escapeHtml(text){
+return text.replace(/[&<>"']/g,char=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[char]));
+}
 
 function showFirst(){
 firstScreen.classList.remove("hidden");
 secondScreen.classList.add("hidden");
-}
-
-function showSecond(){
-firstScreen.classList.add("hidden");
-secondScreen.classList.remove("hidden");
 }
 
 function showRules(){
@@ -223,93 +237,53 @@ leaderboard.style.display="block";
 clickArea.style.display="flex";
 }
 
-function cleanName(name){
-return name.trim().replace(/[.#$/[\]]/g,"").slice(0,20);
-}
-
-function escapeHtml(s){
-return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-}
-
-function renderLeaderboard(){
-const arr=Object.entries(players).map(([id,p])=>({id,...p}));
-arr.sort((a,b)=>(b.score||0)-(a.score||0));
-leaderboardList.innerHTML="";
-if(!arr.length){
-leaderboardList.innerHTML='<div class="loading">Hələ oyunçu yoxdur</div>';
-return;
-}
-arr.slice(0,50).forEach((p,i)=>{
-const row=document.createElement("div");
-row.className="rank"+(p.id===uid?" my-rank":"");
-row.innerHTML='<span class="rank-name">'+(i+1)+". "+escapeHtml(p.name||"Adsız")+'</span><span class="rank-score">'+(p.score||0)+'</span>';
-leaderboardList.appendChild(row);
-});
-}
-
-onAuthStateChanged(auth,user=>{
-if(user)uid=user.uid;
-});
-
-signInAnonymously(auth).catch(e=>console.log("Giriş xətası:",e));
-
-onValue(ref(db,"players"),snap=>{
-players=snap.val()||{};
-renderLeaderboard();
-});
-
 startButton.addEventListener("click",e=>{
 e.stopPropagation();
-history.pushState({page:"second"},"","#second");
-showSecond();
+history.pushState({page:"rules"},"","#rules");
 showRules();
+secondScreen.classList.remove("hidden");
+firstScreen.classList.add("hidden");
+firework(innerWidth/2,innerHeight/2);
 });
 
-startGame.addEventListener("click",async e=>{
+startGame.addEventListener("click",e=>{
 e.stopPropagation();
-playerName=cleanName(nameInput.value);
+
+playerName=nameInput.value.trim();
+
 if(!playerName){
 nameInput.focus();
 nameInput.placeholder="Əvvəlcə adını yaz!";
 return;
 }
-if(!uid){
-alert("Bağlantı hazırlanır. Bir az gözlə.");
-return;
-}
+
 score=0;
-lastSyncedScore=0;
+scoreNumber.textContent="0";
 gameStarted=true;
-updateScore();
-await set(ref(db,"players/"+uid),{name:playerName,score:0});
+
+if(!players[playerName])players[playerName]={score:0};
+
+players[playerName].score=0;
+savePlayers();
+renderLeaderboard();
+
 history.pushState({page:"game"},"","#game");
 showGame();
 });
 
-function updateScore(){
+clickArea.addEventListener("click",e=>{
+if(!gameStarted)return;
+
+score++;
 scoreNumber.textContent=score;
+
 scoreNumber.classList.remove("click-effect");
 void scoreNumber.offsetWidth;
 scoreNumber.classList.add("click-effect");
-}
 
-clickArea.addEventListener("click",()=>{
-if(!gameStarted||!uid)return;
-score++;
-updateScore();
-});
-
-setInterval(()=>{
-if(!gameStarted||!uid||score===lastSyncedScore)return;
-const difference=score-lastSyncedScore;
-lastSyncedScore=score;
-runTransaction(ref(db,"players/"+uid+"/score"),current=>(current||0)+difference).catch(()=>{});
-},500);
-
-nameInput.addEventListener("change",()=>{
-if(!uid||!gameStarted)return;
-playerName=cleanName(nameInput.value);
-if(playerName)set(ref(db,"players/"+uid+"/name"),playerName);
+players[playerName]={score:score};
+savePlayers();
+renderLeaderboard();
 });
 
 backButton.addEventListener("click",e=>{
@@ -317,32 +291,31 @@ e.stopPropagation();
 history.back();
 });
 
+addEventListener("popstate",()=>{
 if(location.hash==="#game"){
-showSecond();
+secondScreen.classList.remove("hidden");
+firstScreen.classList.add("hidden");
 showGame();
 gameStarted=true;
-}else if(location.hash==="#second"){
-showSecond();
-showRules();
-}else{
-history.replaceState({page:"first"},"","#home");
-showFirst();
 }
-
-addEventListener("popstate",e=>{
-if(e.state&&e.state.page==="game"){
-showSecond();
-showGame();
-gameStarted=true;
-}else if(e.state&&e.state.page==="second"){
-showSecond();
+else if(location.hash==="#rules"){
+secondScreen.classList.remove("hidden");
+firstScreen.classList.add("hidden");
 showRules();
 gameStarted=false;
-}else{
+}
+else{
 showFirst();
 gameStarted=false;
 }
 });
+
+document.addEventListener("click",e=>{
+if(e.target.closest(".start-button")||e.target.closest(".back-button")||e.target.closest(".rules")||e.target.closest(".name-box")||e.target.closest(".leaderboard")||e.target.closest(".click-area"))return;
+firework(e.clientX,e.clientY);
+});
+
+renderLeaderboard();
 </script>
 </body>
 </html>
