@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="az">    
+<html lang="az">
 <head>
 <meta name="google-site-verification" content="hWI9JTzJS9M8SbMfd-1oRRcM1X1bAHBEfjEB6a2jXLs">
 <meta charset="UTF-8">
@@ -14,111 +14,152 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000}
 body{display:flex;justify-content:center;align-items:center;color:#fff;font-family:Arial,sans-serif}
 #fireworks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 .screen{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;z-index:5}
-.screen.hidden{display:none}
+.hidden{display:none!important}
 .container{text-align:center}
 h1{margin:0 0 25px;font-size:50px;font-weight:600;color:#fff;user-select:none;-webkit-user-select:none}
-.start-button{width:140px;height:54px;margin:auto;padding:0;border:1px solid #292929;border-radius:15px;background:#000;display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 0 18px rgba(255,255,255,.28),0 0 38px rgba(255,255,255,.12);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;user-select:none;-webkit-user-select:none}
-.start-button:hover{transform:scale(1.04);border-color:#555;box-shadow:0 0 25px rgba(255,255,255,.5),0 0 50px rgba(255,255,255,.18)}
-.start-button span{width:0;height:0;margin-left:5px;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:20px solid #fff;filter:drop-shadow(0 0 2px #fff)}
-.second-screen{width:100%;height:100%;display:flex;justify-content:center;align-items:center}
-.back-button{position:fixed;top:25px;left:25px;padding:10px 18px;border:1px solid #333;border-radius:10px;background:#000;color:#fff;font-size:15px;cursor:pointer;box-shadow:0 0 15px rgba(255,255,255,.15);transition:.2s;user-select:none;-webkit-user-select:none}
-.back-button:hover{border-color:#666;box-shadow:0 0 20px rgba(255,255,255,.3)}
-.best-score{display:none;position:fixed;top:28px;right:30px;font-size:16px;font-weight:600;color:#fff;user-select:none;-webkit-user-select:none}
-.game{width:360px;max-width:90vw;text-align:center;user-select:none}
-.rules{background:#050505;border:1px solid #252525;border-radius:18px;padding:28px 25px;box-shadow:0 0 30px rgba(255,255,255,.08)}
-.rules h2{margin:0 0 15px;font-size:27px}
+.start-button{width:150px;height:58px;border:1px solid #292929;border-radius:16px;background:#000;display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 0 18px rgba(255,255,255,.28),0 0 38px rgba(255,255,255,.12);transition:.2s}
+.start-button:hover{transform:scale(1.04);box-shadow:0 0 28px rgba(255,255,255,.45),0 0 55px rgba(255,255,255,.15)}
+.start-button span{width:0;height:0;margin-left:5px;border-top:14px solid transparent;border-bottom:14px solid transparent;border-left:21px solid #fff;filter:drop-shadow(0 0 2px #fff)}
+.back-button{position:fixed;top:25px;left:25px;padding:10px 18px;border:1px solid #333;border-radius:10px;background:#000;color:#fff;font-size:15px;cursor:pointer;z-index:20;user-select:none}
+.back-button:hover{border-color:#666;box-shadow:0 0 18px rgba(255,255,255,.25)}
+.game{width:100%;height:100%;position:relative}
+.rules{width:380px;max-width:90vw;background:#050505;border:1px solid #252525;border-radius:18px;padding:28px 25px;text-align:center;box-shadow:0 0 30px rgba(255,255,255,.08)}
+.rules h2{margin:0 0 18px;font-size:28px}
 .rules p{margin:10px 0;font-size:15px;line-height:1.6;color:#ccc}
-.rule-risk{color:#fff!important;font-weight:600}
-.start-game{margin-top:18px;padding:12px 28px;border:1px solid #444;border-radius:11px;background:#fff;color:#000;font-weight:bold;cursor:pointer;transition:.2s}
+.start-game{margin-top:18px;padding:12px 30px;border:1px solid #444;border-radius:11px;background:#fff;color:#000;font-weight:bold;cursor:pointer;transition:.2s}
 .start-game:hover{transform:scale(1.04);box-shadow:0 0 20px rgba(255,255,255,.25)}
-.coin-area{display:none;position:relative}
-.coin-title{font-size:14px;color:#999;margin-bottom:8px}
-.coin-count{font-size:82px;font-weight:700;line-height:1;color:#fff;text-shadow:0 0 25px rgba(255,255,255,.18);transition:transform .2s ease}
-.coin-label{margin-top:10px;font-size:15px;color:#888}
-.message{height:25px;margin-top:18px;font-size:15px;font-weight:600}
-.buttons{display:flex;gap:12px;justify-content:center;margin-top:20px}
-.game-button{min-width:145px;padding:13px 18px;border-radius:11px;border:1px solid #333;background:#050505;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:.2s}
-.game-button:hover{border-color:#777;box-shadow:0 0 18px rgba(255,255,255,.15);transform:translateY(-2px)}
-.finish-button{background:#111}
-.result{display:none;margin-top:22px;padding:16px;border:1px solid #222;border-radius:12px;background:#050505}
-.result-title{font-size:20px;font-weight:bold}
-.result-text{margin-top:8px;font-size:14px;color:#aaa}
-.restart-button{margin-top:14px;padding:10px 20px;border:1px solid #444;border-radius:9px;background:#fff;color:#000;font-weight:bold;cursor:pointer}
-.coin-pop{animation:coinPop .25s ease}
-@keyframes coinPop{0%{transform:scale(1)}50%{transform:scale(1.16)}100%{transform:scale(1)}}
-@media(max-width:600px){h1{font-size:40px}.start-button{width:125px}.best-score{top:20px;right:18px;font-size:14px}.game{width:320px}.coin-count{font-size:68px}.buttons{flex-direction:column}.game-button{width:100%}}
+.name-box{position:fixed;top:25px;left:25px;display:none;z-index:10}
+.name-input{width:180px;padding:10px 13px;border:1px solid #333;border-radius:10px;background:#050505;color:#fff;outline:none;font-size:14px}
+.name-input::placeholder{color:#777}
+.leaderboard{position:fixed;top:25px;right:25px;width:230px;max-height:70vh;overflow:hidden;border:1px solid #222;border-radius:14px;background:rgba(5,5,5,.94);padding:15px;display:none;z-index:10}
+.leaderboard-title{text-align:center;font-size:16px;font-weight:bold;margin-bottom:12px}
+.leaderboard-list{font-size:13px;max-height:55vh;overflow-y:auto}
+.leaderboard-list::-webkit-scrollbar{width:3px}
+.leaderboard-list::-webkit-scrollbar-thumb{background:#444}
+.rank{display:flex;justify-content:space-between;gap:8px;padding:8px 4px;border-bottom:1px solid #181818;color:#bbb}
+.rank:first-child{color:#fff}
+.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-score{font-weight:bold;white-space:nowrap}
+.my-rank{color:#fff!important;background:#111;border-radius:6px;padding-left:7px;padding-right:7px}
+.click-area{position:absolute;inset:0;display:none;justify-content:center;align-items:center;cursor:pointer;user-select:none}
+.score{text-align:center;pointer-events:none}
+.score-number{font-size:110px;font-weight:700;line-height:1;text-shadow:0 0 30px rgba(255,255,255,.15);transition:transform .08s ease}
+.score-label{margin-top:15px;font-size:14px;color:#777;letter-spacing:2px}
+.click-effect{animation:clickEffect .12s ease}
+@keyframes clickEffect{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+.loading{color:#777;text-align:center;padding:10px}
+@media(max-width:700px){
+h1{font-size:40px}
+.start-button{width:130px}
+.name-box{top:18px;left:18px}
+.name-input{width:145px}
+.leaderboard{top:65px;right:12px;width:200px;max-height:45vh}
+.score-number{font-size:75px}
+}
 </style>
 </head>
 <body>
+
 <canvas id="fireworks"></canvas>
+
 <div class="screen" id="firstScreen">
 <div class="container">
 <h1>Ümid Hacılı</h1>
 <button class="start-button" id="startButton" aria-label="Başla"><span></span></button>
 </div>
 </div>
+
 <div class="screen hidden" id="secondScreen">
-<div class="best-score" id="bestScoreBox">Ən yaxşı nəticə: <span id="bestScore">0</span></div>
 <button class="back-button" id="backButton">← Geri</button>
+
 <div class="game">
+
 <div class="rules" id="rules">
-<h2>Coin Risk</h2>
-<p>Məqsəd mümkün qədər çox xal toplamaqdır.</p>
-<p class="rule-risk">Hər "Davam et" basışında 50% ehtimalla 1 xal qazanırsan.</p>
-<p class="rule-risk">Digər 50% ehtimalda isə bütün xalların 0-a düşür.</p>
-<p>İstədiyin vaxt "Bitir" düyməsinə basıb topladığın xalları nəticə kimi saxlaya bilərsən.</p>
-<p>Nəticən əvvəlki ən yaxşı nəticədən böyük olarsa, yeni rekordun olacaq.</p>
+<h2>🖱️ Klik Yarışı</h2>
+<p>Məqsəd mümkün qədər çox klik toplamaq və reytinqdə ən yüksək yerə çıxmaqdır.</p>
+<p>Oyuna başlamazdan əvvəl adını yazırsan.</p>
+<p>Ekrana hər klik etdikdə nəticən <b>+1</b> artır.</p>
+<p>Nə qədər çox klik etsən, reytinqdə yerin bir o qədər yüksələr.</p>
+<p>Sağ tərəfdə sayta daxil olan oyunçuların ümumi reytinqi göstərilir.</p>
+<p>Əsas məqsəd <b>1-ci yerə çıxmaqdır! 🏆</b></p>
 <button class="start-game" id="startGame">Oyuna başla</button>
 </div>
-<div class="coin-area" id="coinArea">
-<div class="coin-title">TOPLADIĞIN XALLAR</div>
-<div class="coin-count" id="coinCount">0</div>
-<div class="coin-label">xal</div>
-<div class="message" id="message"></div>
-<div class="buttons">
-<button class="game-button continue-button" id="continueButton">Davam et</button>
-<button class="game-button finish-button" id="finishButton">Bitir</button>
+
+<div class="name-box" id="nameBox">
+<input class="name-input" id="nameInput" maxlength="20" placeholder="Adını yaz...">
 </div>
-<div class="result" id="result">
-<div class="result-title" id="resultTitle">Nəticə</div>
-<div class="result-text" id="resultText"></div>
-<button class="restart-button" id="restartButton">Yenidən oyna</button>
+
+<div class="leaderboard" id="leaderboard">
+<div class="leaderboard-title">🏆 Reytinq</div>
+<div class="leaderboard-list" id="leaderboardList">
+<div class="loading">Yüklənir...</div>
 </div>
 </div>
+
+<div class="click-area" id="clickArea">
+<div class="score">
+<div class="score-number" id="scoreNumber">0</div>
+<div class="score-label">KLİK SAYI</div>
 </div>
 </div>
-<script>
+
+</div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getDatabase,ref,onValue,set,runTransaction}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+/* BURANI ÖZ FIREBASE MƏLUMATLARINLA DƏYİŞ */
+const firebaseConfig={
+apiKey:"SƏNİN_API_KEY",
+authDomain:"SƏNİN_LAYİHƏN.firebaseapp.com",
+databaseURL:"https://SƏNİN-LAYİHƏN-default-rtdb.firebaseio.com",
+projectId:"SƏNİN_LAYİHƏN",
+storageBucket:"SƏNİN-LAYİHƏN.firebasestorage.app",
+messagingSenderId:"SƏNİN_MESSAGING_ID",
+appId:"SƏNİN_APP_ID"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const auth=getAuth(app);
+
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
 let width,height;
-function resizeCanvas(){width=window.innerWidth;height=window.innerHeight;canvas.width=width;canvas.height=height}
+
+function resizeCanvas(){
+width=innerWidth;
+height=innerHeight;
+canvas.width=width;
+canvas.height=height;
+}
 resizeCanvas();
-window.addEventListener("resize",resizeCanvas);
+addEventListener("resize",resizeCanvas);
+
 const particles=[];
 const colors=["#00eaff","#008cff","#7a00ff","#ff00cc","#ff0055","#ff7700","#ffe600","#00ff88"];
+
 function createFirework(x,y){
-const amount=60;
 const color=colors[Math.floor(Math.random()*colors.length)];
-for(let i=0;i<amount;i++){
-const angle=Math.PI*2*(i/amount)+(Math.random()-.5)*.12;
+for(let i=0;i<60;i++){
+const angle=Math.PI*2*(i/60)+(Math.random()-.5)*.12;
 const speed=1.5+Math.random()*4;
 const life=800+Math.random()*500;
-particles.push({x:x,y:y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,size:1.5+Math.random()*2.5,life:life,maxLife:life,color:color})
+particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,size:1.5+Math.random()*2.5,life,maxLife:life,color});
 }
-for(let i=0;i<12;i++){
-particles.push({x:x,y:y,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,size:2+Math.random()*3,life:350,maxLife:350,color:"#fff"})
+for(let i=0;i<12;i++)particles.push({x,y,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,size:2+Math.random()*3,life:350,maxLife:350,color:"#fff"});
 }
-}
-window.addEventListener("click",function(e){
-if(e.target.closest("#startButton"))return;
-if(e.target.closest("#backButton"))return;
-if(e.target.closest("#coinArea"))return;
-if(e.target.closest("#rules"))return;
+
+addEventListener("click",e=>{
+if(e.target.closest("#startButton")||e.target.closest("#backButton")||e.target.closest("#rules")||e.target.closest("#nameBox")||e.target.closest("#leaderboard")||e.target.closest("#clickArea"))return;
 createFirework(e.clientX,e.clientY);
 });
+
 function drawParticle(p){
-const opacity=Math.max(0,p.life/p.maxLife);
-ctx.globalAlpha=opacity;
+ctx.globalAlpha=Math.max(0,p.life/p.maxLife);
 ctx.shadowBlur=12;
 ctx.shadowColor=p.color;
 ctx.beginPath();
@@ -127,146 +168,190 @@ ctx.fillStyle=p.color;
 ctx.fill();
 ctx.globalAlpha=1;
 }
+
 let lastTime=performance.now();
-function animate(time){
-const delta=Math.min(32,time-lastTime);
-lastTime=time;
+
+function animate(t){
+const d=Math.min(32,t-lastTime);
+lastTime=t;
 ctx.clearRect(0,0,width,height);
 for(let i=particles.length-1;i>=0;i--){
 const p=particles[i];
-p.x+=p.vx*(delta/16);
-p.y+=p.vy*(delta/16);
-p.vy+=.045*(delta/16);
+p.x+=p.vx*(d/16);
+p.y+=p.vy*(d/16);
+p.vy+=.045*(d/16);
 p.vx*=.985;
 p.vy*=.985;
-p.life-=delta;
+p.life-=d;
 drawParticle(p);
 if(p.life<=0)particles.splice(i,1);
 }
 requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
+
 const firstScreen=document.getElementById("firstScreen");
 const secondScreen=document.getElementById("secondScreen");
 const rules=document.getElementById("rules");
-const coinArea=document.getElementById("coinArea");
-const bestScoreBox=document.getElementById("bestScoreBox");
-function showFirst(){firstScreen.classList.remove("hidden");secondScreen.classList.add("hidden");bestScoreBox.style.display="none"}
-function showSecond(){firstScreen.classList.add("hidden");secondScreen.classList.remove("hidden")}
-function showRules(){rules.style.display="block";coinArea.style.display="none";bestScoreBox.style.display="none"}
-function showGame(){rules.style.display="none";coinArea.style.display="block";bestScoreBox.style.display="block"}
-let coins=0;
+const startButton=document.getElementById("startButton");
+const startGame=document.getElementById("startGame");
+const backButton=document.getElementById("backButton");
+const nameBox=document.getElementById("nameBox");
+const nameInput=document.getElementById("nameInput");
+const leaderboard=document.getElementById("leaderboard");
+const leaderboardList=document.getElementById("leaderboardList");
+const clickArea=document.getElementById("clickArea");
+const scoreNumber=document.getElementById("scoreNumber");
+
+let uid=null;
+let score=0;
+let playerName="";
 let gameStarted=false;
-let gameFinished=false;
-let bestScore=parseInt(localStorage.getItem("coinBestScore")||"0");
-const bestScoreEl=document.getElementById("bestScore");
-const coinCount=document.getElementById("coinCount");
-const message=document.getElementById("message");
-const result=document.getElementById("result");
-const resultTitle=document.getElementById("resultTitle");
-const resultText=document.getElementById("resultText");
-bestScoreEl.textContent=bestScore;
-function updateCoins(){
-coinCount.textContent=coins;
-coinCount.classList.remove("coin-pop");
-void coinCount.offsetWidth;
-coinCount.classList.add("coin-pop");
+let players={};
+
+function showFirst(){
+firstScreen.classList.remove("hidden");
+secondScreen.classList.add("hidden");
 }
+
+function showSecond(){
+firstScreen.classList.add("hidden");
+secondScreen.classList.remove("hidden");
+}
+
+function showRules(){
+rules.classList.remove("hidden");
+nameBox.style.display="none";
+leaderboard.style.display="none";
+clickArea.style.display="none";
+}
+
+function showGame(){
+rules.classList.add("hidden");
+nameBox.style.display="block";
+leaderboard.style.display="block";
+clickArea.style.display="flex";
+}
+
+function cleanName(name){
+return name.trim().replace(/[.#$/[\]]/g,"").slice(0,20);
+}
+
+function renderLeaderboard(){
+const arr=Object.entries(players).map(([id,p])=>({id,...p}));
+arr.sort((a,b)=>(b.score||0)-(a.score||0));
+leaderboardList.innerHTML="";
+if(!arr.length){
+leaderboardList.innerHTML='<div class="loading">Hələ oyunçu yoxdur</div>';
+return;
+}
+arr.slice(0,50).forEach((p,i)=>{
+const row=document.createElement("div");
+row.className="rank"+(p.id===uid?" my-rank":"");
+row.innerHTML='<span class="rank-name">'+(i+1)+". "+escapeHtml(p.name||"Adsız")+'</span><span class="rank-score">'+(p.score||0)+'</span>';
+leaderboardList.appendChild(row);
+});
+}
+
+function escapeHtml(s){
+return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function updateScore(){
+scoreNumber.textContent=score;
+scoreNumber.classList.remove("click-effect");
+void scoreNumber.offsetWidth;
+scoreNumber.classList.add("click-effect");
+}
+
+onAuthStateChanged(auth,user=>{
+if(user)uid=user.uid;
+});
+
+signInAnonymously(auth).catch(e=>console.log("Giriş xətası:",e));
+
+onValue(ref(db,"players"),snap=>{
+players=snap.val()||{};
+renderLeaderboard();
+});
+
+startButton.addEventListener("click",e=>{
+e.stopPropagation();
+history.pushState({page:"second"},"","#second");
+showSecond();
+showRules();
+});
+
+startGame.addEventListener("click",async e=>{
+e.stopPropagation();
+playerName=cleanName(nameInput.value);
+if(!playerName){
+nameInput.focus();
+nameInput.placeholder="Əvvəlcə adını yaz!";
+return;
+}
+if(!uid){
+alert("Bağlantı hazırlanır. Bir az gözlə.");
+return;
+}
+score=0;
+gameStarted=true;
+updateScore();
+await set(ref(db,"players/"+uid),{name:playerName,score:0});
+history.pushState({page:"game"},"","#game");
+showGame();
+});
+
+clickArea.addEventListener("click",()=>{
+if(!gameStarted||!uid)return;
+score++;
+updateScore();
+});
+
+let lastSyncedScore=0;
+
+setInterval(()=>{
+if(!gameStarted||!uid||score===lastSyncedScore)return;
+const difference=score-lastSyncedScore;
+lastSyncedScore=score;
+runTransaction(ref(db,"players/"+uid+"/score"),current=>(current||0)+difference).catch(()=>{});
+},500);
+
+nameInput.addEventListener("change",()=>{
+if(!uid||!gameStarted)return;
+playerName=cleanName(nameInput.value);
+if(playerName)set(ref(db,"players/"+uid+"/name"),playerName);
+});
+
+backButton.addEventListener("click",e=>{
+e.stopPropagation();
+history.back();
+});
+
 if(location.hash==="#game"){
-history.replaceState({page:"game"},"","#game");
 showSecond();
 showGame();
 gameStarted=true;
 }else if(location.hash==="#second"){
-history.replaceState({page:"second"},"","#second");
 showSecond();
 showRules();
 }else{
 history.replaceState({page:"first"},"","#home");
 showFirst();
 }
-document.getElementById("startButton").addEventListener("click",function(e){
-e.stopPropagation();
-history.pushState({page:"second"},"","#second");
-showSecond();
-showRules();
-gameStarted=false;
-gameFinished=false;
-});
-document.getElementById("startGame").addEventListener("click",function(e){
-e.stopPropagation();
-if(gameStarted)return;
-coins=0;
-gameStarted=true;
-gameFinished=false;
-coinCount.textContent="0";
-message.textContent="Risk etməyə hazırsan?";
-result.style.display="none";
-bestScoreBox.style.display="block";
-history.pushState({page:"game"},"","#game");
-showGame();
-});
-document.getElementById("continueButton").addEventListener("click",function(e){
-e.stopPropagation();
-if(!gameStarted||gameFinished)return;
-const win=Math.random()<0.5;
-if(win){
-coins++;
-updateCoins();
-if(coins>=5){message.textContent="🔥 Əla gedir! Davam etməyə hazırsan?"}
-else{message.textContent="✓ Xal qazandın! Yenə risk edirsən?"}
-}else{
-coins=0;
-updateCoins();
-message.textContent="💥 Təəssüf! Bütün xallarını itirdin.";
-}
-});
-document.getElementById("finishButton").addEventListener("click",function(e){
-e.stopPropagation();
-if(!gameStarted||gameFinished)return;
-gameFinished=true;
-const finalCoins=coins;
-if(finalCoins>bestScore){
-bestScore=finalCoins;
-localStorage.setItem("coinBestScore",bestScore);
-bestScoreEl.textContent=bestScore;
-resultTitle.textContent="🏆 Yeni rekord!";
-resultText.textContent="Sən "+finalCoins+" xal topladın və yeni rekord yaratdın.";
-}else{
-resultTitle.textContent="Oyun bitdi";
-resultText.textContent="Sənin nəticən: "+finalCoins+" xal. Ən yaxşı nəticə: "+bestScore+".";
-}
-result.style.display="block";
-message.textContent="Nəticən yadda saxlanıldı.";
-});
-document.getElementById("restartButton").addEventListener("click",function(e){
-e.stopPropagation();
-coins=0;
-gameStarted=true;
-gameFinished=false;
-coinCount.textContent="0";
-message.textContent="Yenidən risk etməyə hazırsan?";
-result.style.display="none";
-});
-document.getElementById("backButton").addEventListener("click",function(e){
-e.stopPropagation();
-history.back();
-});
-window.addEventListener("popstate",function(e){
+
+addEventListener("popstate",e=>{
 if(e.state&&e.state.page==="game"){
-gameStarted=true;
-gameFinished=false;
 showSecond();
 showGame();
+gameStarted=true;
 }else if(e.state&&e.state.page==="second"){
-gameStarted=false;
-gameFinished=false;
 showSecond();
 showRules();
-}else{
 gameStarted=false;
-gameFinished=false;
+}else{
 showFirst();
+gameStarted=false;
 }
 });
 </script>
