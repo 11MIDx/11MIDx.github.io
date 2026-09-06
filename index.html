@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="az">
 <head>
@@ -571,11 +571,48 @@ localStorage.getItem("coinBestScore")||"0"
 );
 
 
+
 /* GİZLİ KOD */
 
 let secretClicks=0;
 let secretReady=false;
 
+secondScreen.addEventListener("click",function(e){
+
+    if(!gameStarted||gameFinished)return;
+
+    // Düymələr və digər idarəetmə elementləri gizli klik sayılmır
+    if(
+        e.target.closest("#continueButton") ||
+        e.target.closest("#finishButton") ||
+        e.target.closest("#restartButton") ||
+        e.target.closest("#backButton") ||
+        e.target.closest("#bestScoreBox")
+    ) return;
+
+    const x=e.clientX;
+    const y=e.clientY;
+
+    const rightTop=
+        x>window.innerWidth/2 &&
+        y<window.innerHeight/2;
+
+    if(rightTop){
+
+        secretClicks++;
+
+        if(secretClicks===2){
+            secretReady=true;
+            secretClicks=0;
+        }
+
+    }else{
+
+        secretClicks=0;
+
+    }
+
+});
 
 /*
 Oyun sahəsini 4 görünməyən hissəyə bölürük.
